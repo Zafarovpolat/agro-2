@@ -29,8 +29,8 @@ export default function Header() {
     >
       <div className="container mx-auto px-6 flex items-center justify-between">
         <div className="flex items-center gap-12">
-          <a href="/" className="text-2xl font-bold tracking-tighter text-dark">
-            AGRO<span className="text-primary">TECH</span>
+          <a href="/" className="flex items-center">
+            <img src="/logo.svg" alt="AGROTECH" className="h-12" />
           </a>
           
           <nav className="hidden md:flex items-center gap-8">
