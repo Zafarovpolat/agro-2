@@ -1,13 +1,436 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>My Google AI Studio App</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
-</html>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AgroNord — Сельскохозяйственная техника</title>
+  <meta name="description" content="AgroNord — продажа и сервис сельскохозяйственной техники. Тракторы, комбайны, плуги, сеялки и запчасти.">
+  <link rel="icon" href="/public/logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
 
+  <!-- ===== Header ===== -->
+  <header class="header" id="header">
+    <div class="container header-inner">
+      <div style="display:flex;align-items:center;gap:40px;">
+        <a href="/" class="header-logo">
+          <img src="/public/logo.svg" alt="AgroNord" />
+        </a>
+        <nav class="header-nav">
+          <a href="/catalog.html" data-i18n="nav.catalog">Каталог</a>
+          <a href="/about.html" data-i18n="nav.about">О нас</a>
+          <a href="/service.html" data-i18n="nav.service">Сервис</a>
+          <a href="/contacts.html" data-i18n="nav.contacts">Контакты</a>
+        </nav>
+      </div>
+      <div class="header-actions">
+        <a href="/catalog.html" class="header-fav" title="Избранное" style="display:none;">
+          <!-- heart icon -->
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+          <span class="header-fav-badge">3</span>
+        </a>
+        <a href="tel:+37360123456" class="header-phone">
+          <!-- phone icon -->
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          +373 60 123 456
+        </a>
+        <div class="lang-switch">
+          <button class="lang-btn active" data-lang="ru">RU</button>
+          <button class="lang-btn" data-lang="ro">RO</button>
+        </div>
+        <button class="menu-toggle" aria-label="Меню">
+          <!-- hamburger -->
+          <svg class="menu-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+          <!-- close -->
+          <svg class="close-icon" style="display:none" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+        </button>
+      </div>
+    </div>
+    <!-- Mobile menu -->
+    <div class="mobile-menu">
+      <a href="/catalog.html" data-i18n="nav.catalog">Каталог</a>
+      <a href="/about.html" data-i18n="nav.about">О нас</a>
+      <a href="/service.html" data-i18n="nav.service">Сервис</a>
+      <a href="/contacts.html" data-i18n="nav.contacts">Контакты</a>
+      <div class="mobile-menu-footer">
+        <a href="tel:+37360123456" style="display:flex;align-items:center;gap:8px;font-weight:600;color:var(--dark);">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          +373 60 123 456
+        </a>
+      </div>
+    <div class="lang-switch" style="margin-top:16px;justify-content:center;">
+        <button class="lang-btn active" data-lang="ru">RU</button>
+        <button class="lang-btn" data-lang="ro">RO</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ===== Hero ===== -->
+    <section class="hero">
+      <div class="hero-bg">
+        <img src="img/hero-field.jpg" alt="Сельскохозяйственное поле" />
+      </div>
+      <div class="hero-content">
+        <h1 class="fade-up">AGRONORD</h1>
+        <p class="fade-up delay-1" data-i18n="hero.subtitle">Сельскохозяйственная техника и оборудование для вашего бизнеса</p>
+        <div class="hero-buttons fade-up delay-2">
+          <a href="/catalog.html" class="btn btn-primary btn-lg" data-i18n="hero.btn.catalog">Смотреть каталог</a>
+          <a href="/contacts.html" class="btn btn-white btn-lg" data-i18n="hero.btn.consult">Получить консультацию</a>
+        </div>
+      </div>
+      <div class="scroll-indicator">
+        <span data-i18n="hero.scroll">Листайте вниз</span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+      </div>
+    </section>
+
+    <!-- ===== Quick Nav ===== -->
+    <section class="quick-nav">
+      <div class="container">
+        <div class="quick-nav-grid">
+          <a href="/catalog.html?cat=tractors" class="quick-nav-item fade-up">
+            <div class="quick-nav-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="17" r="2"/><circle cx="17" cy="17" r="2"/><path d="M5 17H3v-4l2-5h8l4 5h2v4h-2"/><path d="M10 17V9"/><path d="m14 9 1 2"/></svg>
+            </div>
+            <span data-i18n="qnav.tractors">Тракторы</span>
+          </a>
+          <a href="/catalog.html?cat=combines" class="quick-nav-item fade-up delay-1">
+            <div class="quick-nav-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 22 16 8"/><path d="m3.47 12.53 5 5"/><path d="m5 17 5-5"/><path d="M12 2v4"/><path d="m15 5-3 3-3-3"/><path d="m18 7-3 3"/><path d="M22 2 12 12"/></svg>
+            </div>
+            <span data-i18n="qnav.combines">Комбайны</span>
+          </a>
+          <a href="/catalog.html?cat=plows" class="quick-nav-item fade-up delay-2">
+            <div class="quick-nav-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+            </div>
+            <span data-i18n="qnav.plows">Плуги</span>
+          </a>
+          <a href="/catalog.html?cat=seeders" class="quick-nav-item fade-up delay-3">
+            <div class="quick-nav-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7z"/></svg>
+            </div>
+            <span data-i18n="qnav.seeders">Сеялки</span>
+          </a>
+          <a href="/catalog.html?cat=trailers" class="quick-nav-item fade-up delay-4">
+            <div class="quick-nav-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 17h4V5H2v12h3"/><path d="M20 17h2v-3.34a4 4 0 0 0-1.17-2.83L19 9h-5"/><path d="M14 17h1"/><circle cx="7.5" cy="17.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></svg>
+            </div>
+            <span data-i18n="qnav.trailers">Прицепы</span>
+          </a>
+          <a href="/catalog.html?cat=parts" class="quick-nav-item fade-up delay-5">
+            <div class="quick-nav-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+            </div>
+            <span data-i18n="qnav.parts">Запчасти</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Featured Products ===== -->
+    <section class="section" style="background:var(--bg);">
+      <div class="container">
+        <div class="featured-grid">
+          <a href="/product.html?id=1" class="featured-card large fade-up">
+            <img src="img/tractor-john-deere-8r.jpg" alt="Трактор John Deere 8R" />
+            <div class="featured-card-content">
+              <h3 data-i18n="feat.jd8r.title">Трактор John Deere 8R</h3>
+              <p data-i18n="feat.jd8r.desc">Максимальная мощность и эффективность для больших полей. Надёжный партнёр в любых условиях.</p>
+              <span class="featured-card-link" data-i18n="btn.details">Подробнее</span>
+            </div>
+          </a>
+          <a href="/product.html?id=2" class="featured-card fade-up delay-1">
+            <img src="img/combine-claas-lexion.jpg" alt="Комбайн CLAAS LEXION" />
+            <div class="featured-card-content">
+              <h3 data-i18n="feat.claas.title">Комбайн CLAAS LEXION</h3>
+              <p data-i18n="feat.claas.desc">Инновационные технологии уборки урожая.</p>
+              <span class="featured-card-link" data-i18n="btn.details">Подробнее</span>
+            </div>
+          </a>
+          <a href="/product.html?id=3" class="featured-card fade-up delay-2">
+            <img src="img/seeder-horsch.jpg" alt="Сеялка HORSCH Maestro" />
+            <div class="featured-card-content">
+              <h3 data-i18n="feat.horsch.title">Сеялка HORSCH Maestro</h3>
+              <p>Точный высев на высоких скоростях.</p>
+              <span class="featured-card-link" data-i18n="btn.details">Подробнее</span>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Catalog Preview ===== -->
+    <section class="section" id="catalog" style="background:var(--white);">
+      <div class="container">
+        <div class="section-header fade-up">
+          <div>
+            <h2 data-i18n="catprev.title">Каталог техники</h2>
+            <p data-i18n="catprev.subtitle">Широкий выбор оборудования для любых сельскохозяйственных задач.</p>
+          </div>
+          <a href="/catalog.html" class="section-link">
+            <span data-i18n="btn.viewall">Смотреть все товары</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </a>
+        </div>
+        <div class="products-grid">
+          <a href="/product.html?id=4" class="product-card fade-up">
+            <div class="product-card-image">
+              <img src="img/plow.jpg" alt="Плуг оборотный 5-корпусный" />
+              <button class="product-card-fav" onclick="event.preventDefault();">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+              </button>
+              <div class="product-card-overlay">
+                <span class="btn btn-sm" style="background:var(--white);color:var(--dark);" data-i18n="btn.details">Подробнее</span>
+              </div>
+            </div>
+            <h3 data-i18n="prod.plow">Плуг оборотный 5-корпусный</h3>
+          </a>
+          <a href="/product.html?id=5" class="product-card fade-up delay-1">
+            <div class="product-card-image">
+              <img src="img/cultivator.jpg" alt="Культиватор стерневой" />
+              <button class="product-card-fav" onclick="event.preventDefault();">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+              </button>
+              <div class="product-card-overlay">
+                <span class="btn btn-sm" style="background:var(--white);color:var(--dark);" data-i18n="btn.details">Подробнее</span>
+              </div>
+            </div>
+            <h3 data-i18n="prod.cultivator">Культиватор стерневой</h3>
+          </a>
+          <a href="/product.html?id=6" class="product-card fade-up delay-2">
+            <div class="product-card-image">
+              <img src="img/sprayer.jpg" alt="Опрыскиватель прицепной" />
+              <button class="product-card-fav" onclick="event.preventDefault();">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+              </button>
+              <div class="product-card-overlay">
+                <span class="btn btn-sm" style="background:var(--white);color:var(--dark);" data-i18n="btn.details">Подробнее</span>
+              </div>
+            </div>
+            <h3 data-i18n="prod.sprayer">Опрыскиватель прицепной</h3>
+          </a>
+          <a href="/product.html?id=7" class="product-card fade-up delay-3">
+            <div class="product-card-image">
+              <img src="img/spreader.jpg" alt="Разбрасыватель удобрений" />
+              <button class="product-card-fav" onclick="event.preventDefault();">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+              </button>
+              <div class="product-card-overlay">
+                <span class="btn btn-sm" style="background:var(--white);color:var(--dark);" data-i18n="btn.details">Подробнее</span>
+              </div>
+            </div>
+            <h3 data-i18n="prod.spreader">Разбрасыватель удобрений</h3>
+          </a>
+          <a href="/product.html?id=8" class="product-card fade-up">
+            <div class="product-card-image">
+              <img src="img/mower.jpg" alt="Косилка дисковая" />
+              <button class="product-card-fav" onclick="event.preventDefault();">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+              </button>
+              <div class="product-card-overlay">
+                <span class="btn btn-sm" style="background:var(--white);color:var(--dark);" data-i18n="btn.details">Подробнее</span>
+              </div>
+            </div>
+            <h3 data-i18n="prod.mower">Косилка дисковая</h3>
+          </a>
+          <a href="/product.html?id=9" class="product-card fade-up delay-1">
+            <div class="product-card-image">
+              <img src="img/baler.jpg" alt="Пресс-подборщик" />
+              <button class="product-card-fav" onclick="event.preventDefault();">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+              </button>
+              <div class="product-card-overlay">
+                <span class="btn btn-sm" style="background:var(--white);color:var(--dark);" data-i18n="btn.details">Подробнее</span>
+              </div>
+            </div>
+            <h3 data-i18n="prod.baler">Пресс-подборщик</h3>
+          </a>
+          <a href="/product.html?id=10" class="product-card fade-up delay-2">
+            <div class="product-card-image">
+              <img src="img/disc-harrow.jpg" alt="Борона дисковая" />
+              <button class="product-card-fav" onclick="event.preventDefault();">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+              </button>
+              <div class="product-card-overlay">
+                <span class="btn btn-sm" style="background:var(--white);color:var(--dark);" data-i18n="btn.details">Подробнее</span>
+              </div>
+            </div>
+            <h3 data-i18n="prod.harrow">Борона дисковая</h3>
+          </a>
+          <a href="/product.html?id=11" class="product-card fade-up delay-3">
+            <div class="product-card-image">
+              <img src="img/corn-header.jpg" alt="Жатка для кукурузы" />
+              <button class="product-card-fav" onclick="event.preventDefault();">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+              </button>
+              <div class="product-card-overlay">
+                <span class="btn btn-sm" style="background:var(--white);color:var(--dark);" data-i18n="btn.details">Подробнее</span>
+              </div>
+            </div>
+            <h3 data-i18n="prod.cornheader">Жатка для кукурузы</h3>
+          </a>
+        </div>
+        <div style="text-align:center;margin-top:48px;" class="fade-up">
+          <a href="/catalog.html" class="btn btn-secondary" data-i18n="btn.viewall">Смотреть все товары</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Stats ===== -->
+    <section class="stats">
+      <div class="container">
+        <div class="stats-grid">
+          <div class="fade-up">
+            <div class="stat-value">500+</div>
+            <div class="stat-label" data-i18n="stat.clients">Довольных клиентов</div>
+          </div>
+          <div class="fade-up delay-1">
+            <div class="stat-value" data-i18n="stat.15years">15 лет</div>
+            <div class="stat-label" data-i18n="stat.years">На рынке</div>
+          </div>
+          <div class="fade-up delay-2">
+            <div class="stat-value">24/7</div>
+            <div class="stat-label" data-i18n="stat.support">Поддержка</div>
+          </div>
+          <div class="fade-up delay-3">
+            <div class="stat-value">1000+</div>
+            <div class="stat-label" data-i18n="stat.units">Единиц техники</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Advantages ===== -->
+    <section class="section" style="background:var(--bg);">
+      <div class="container">
+        <div style="text-align:center;margin-bottom:64px;" class="fade-up">
+          <h2 style="font-size:clamp(28px,4vw,40px);margin-bottom:12px;" data-i18n="adv.title">Наши преимущества</h2>
+          <p style="color:var(--text-light);max-width:600px;margin:0 auto;font-size:16px;" data-i18n="adv.subtitle">Мы стремимся быть лучшим партнёром для вашего агробизнеса, предлагая комплексные решения.</p>
+        </div>
+        <div class="advantages-grid">
+          <div class="advantage-card fade-up">
+            <div class="advantage-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg>
+            </div>
+            <h3 data-i18n="adv.quality.title">Гарантия качества</h3>
+            <p data-i18n="adv.quality.desc">Вся техника проходит строгий контроль перед поставкой клиенту.</p>
+          </div>
+          <div class="advantage-card fade-up delay-1">
+            <div class="advantage-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+            </div>
+            <h3 data-i18n="adv.delivery.title">Быстрая доставка</h3>
+            <p data-i18n="adv.delivery.desc">Собственная логистическая сеть обеспечивает доставку в кратчайшие сроки.</p>
+          </div>
+          <div class="advantage-card fade-up delay-2">
+            <div class="advantage-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-5Zm0 0a9 9 0 1 1 18 0m0 0v5a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3Z"/></svg>
+            </div>
+            <h3 data-i18n="adv.service.title">Сервисное обслуживание</h3>
+            <p data-i18n="adv.service.desc">Квалифицированные специалисты готовы помочь 24/7.</p>
+          </div>
+          <div class="advantage-card fade-up delay-3">
+            <div class="advantage-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15.477 12.89 1.515 8.526a.5.5 0 0 1-.81.47l-3.58-2.687a1 1 0 0 0-1.197 0l-3.586 2.686a.5.5 0 0 1-.81-.469l1.514-8.526"/><circle cx="12" cy="8" r="6"/></svg>
+            </div>
+            <h3 data-i18n="adv.price.title">Лучшие цены</h3>
+            <p data-i18n="adv.price.desc">Прямые поставки от производителей позволяют нам предлагать выгодные условия.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== CTA ===== -->
+    <section class="cta">
+      <div class="container">
+        <div class="cta-inner">
+          <h2 class="fade-up" data-i18n="cta.title" data-i18n-html>Не нашли нужную технику?<br>Мы поможем подобрать идеальное решение!</h2>
+          <form class="cta-form fade-up delay-1" onsubmit="event.preventDefault(); alert('Спасибо! Мы свяжемся с вами в ближайшее время.');">
+            <input type="text" class="cta-input" placeholder="Ваше имя" data-i18n="cta.name" required />
+            <input type="tel" class="cta-input" placeholder="Телефон" data-i18n="cta.phone" required />
+            <button type="submit" class="btn btn-accent btn-lg" data-i18n="cta.submit">Отправить заявку</button>
+          </form>
+          <p class="cta-disclaimer fade-up delay-2" data-i18n="cta.disclaimer">Нажимая на кнопку, вы соглашаетесь с политикой конфиденциальности</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===== Footer ===== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <a href="/" class="footer-brand"><img src="/public/logo.svg" alt="AgroNord" /></a>
+          <p class="footer-desc" data-i18n="footer.desc">Ваш надёжный партнёр в мире сельскохозяйственной техники. Мы предлагаем только лучшие решения для вашего бизнеса.</p>
+          <div class="footer-socials">
+            <a href="#" aria-label="Facebook">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+            </a>
+            <a href="#" aria-label="Instagram">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
+            </a>
+            <a href="#" aria-label="Twitter">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg>
+            </a>
+            <a href="#" aria-label="YouTube">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17"/><path d="m10 15 5-3-5-3z"/></svg>
+            </a>
+          </div>
+        </div>
+        <div>
+          <h4 data-i18n="footer.nav">Навигация</h4>
+          <ul class="footer-links">
+            <li><a href="/catalog.html" data-i18n="footer.nav.catalog">Каталог техники</a></li>
+            <li><a href="/about.html" data-i18n="footer.nav.about">О компании</a></li>
+            <li><a href="/service.html" data-i18n="footer.nav.service">Сервис и запчасти</a></li>
+            <li><a href="/contacts.html" data-i18n="nav.contacts">Контакты</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 data-i18n="footer.categories">Категории</h4>
+          <ul class="footer-links">
+            <li><a href="/catalog.html?cat=tractors" data-i18n="footer.cat.tractors">Тракторы</a></li>
+            <li><a href="/catalog.html?cat=combines" data-i18n="footer.cat.combines">Комбайны</a></li>
+            <li><a href="/catalog.html?cat=plows" data-i18n="footer.cat.soil">Почвообработка</a></li>
+            <li><a href="/catalog.html?cat=seeders" data-i18n="footer.cat.seeding">Посев и посадка</a></li>
+            <li><a href="/catalog.html?cat=parts" data-i18n="footer.cat.parts">Запчасти</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 data-i18n="footer.contacts">Контакты</h4>
+          <ul class="footer-contact">
+            <li>
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg>
+              <span data-i18n="footer.address">г. Бельцы, ул. Индустриальная, 15</span>
+            </li>
+            <li>
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              <a href="tel:+37360123456">+373 60 123 456</a>
+            </li>
+            <li>
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+              <a href="mailto:info@agronord.md">info@agronord.md</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p data-i18n="footer.copy">&copy; 2026 AgroNord. Все права защищены.</p>
+        <div class="footer-bottom-links">
+          <a href="#" data-i18n="footer.privacy">Политика конфиденциальности</a>
+          <a href="#" data-i18n="footer.terms">Публичная оферта</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/js/i18n.js"></script>
+  <script src="/js/main.js"></script>
+</body>
+</html>
