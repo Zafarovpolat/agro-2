@@ -79,10 +79,10 @@ try {
   d = dom.window.document; w = dom.window;
   check('ошибок JS нет', w.__errors.length === 0, w.__errors.join('; '));
   const cards = [...d.querySelectorAll('#products-grid .product-card')];
-  check('карточек отрисовано 16', cards.length === 16, cards.length + ' шт.');
+  check('карточек отрисовано 15 (проданное в витрине скрыто)', cards.length === 15, cards.length + ' шт.');
   const badges = cards.map((c) => c.querySelector('.st-badge')?.textContent.trim());
   const uniq = [...new Set(badges)];
-  check('встречаются все 4 статуса', uniq.length === 4, uniq.join(' | '));
+  check('в витрине 3 статуса, «Продан» не показывается', uniq.length === 3 && !uniq.includes('Продан'), uniq.join(' | '));
   const counts = cards.map((c) => c.querySelector('.count-box')?.textContent.replace(/\s+/g, ' ').trim() || '');
   check('счётчик «До прибытия N дн.» есть', counts.some((t) => /До прибытия \d+ (дн|день|дня)/.test(t)));
   check('счётчик «Ожидается со дня на день» есть', counts.some((t) => /Ожидается со дня на день/.test(t)));
@@ -95,6 +95,10 @@ try {
   check('кнопка «Забронировать» на позициях в пути', btns.includes('Забронировать'), btns.filter(Boolean).slice(0, 3).join(' | '));
   check('у наличия — «Оставить заявку»', btns.includes('Оставить заявку'));
   check('у забронированного кнопка disabled', cards.some((c) => c.querySelector('[disabled]')));
+  check('на ховере нет затемнения и кнопки «Подробнее» (сердечко доступно)',
+    d.querySelectorAll('#products-grid .product-card-overlay').length === 0);
+  check('сердечко переключается кликом',
+    (() => { const f = d.querySelector('#products-grid .product-card-fav'); click(w, f); return f.classList.contains('is-active') && f.getAttribute('aria-pressed') === 'true'; })());
   check('карточки каталога видимы (получили .visible после отрисовки)',
     cards.length > 0 && cards.every((c) => c.classList.contains('visible')),
     cards.filter((c) => !c.classList.contains('visible')).length + ' невидимых');
@@ -118,10 +122,28 @@ try {
   free.checked = false; fire(w, free, 'change');
   const sort = d.getElementById('shop-sort');
   sort.value = 'new'; fire(w, sort, 'change');
-  check('сортировка «сначала новые поступления» работает', d.querySelectorAll('#products-grid .product-card').length === 16);
+  check('сортировка «сначала новые поступления» работает', d.querySelectorAll('#products-grid .product-card').length === 15);
   sort.value = 'arrival'; fire(w, sort, 'change');
-  check('счётчик «показано N из N» заполнен', /показано 16 из 16/.test(d.getElementById('shop-count').textContent),
+  check('счётчик «показано N из N» заполнен', /показано 15 из 15/.test(d.getElementById('shop-count').textContent),
     d.getElementById('shop-count').textContent.trim());
+
+  /* кастомный выпадающий список вместо нативного */
+  const wrap = d.getElementById('shop-status').closest('.select');
+  check('селект превращён в кастомный (есть .select-btn и .select-menu)',
+    !!wrap && !!wrap.querySelector('.select-btn') && !!wrap.querySelector('.select-menu'));
+  click(w, wrap.querySelector('.select-btn'));
+  check('меню открывается', wrap.classList.contains('is-open') && wrap.querySelectorAll('.select-option').length === 5,
+    wrap.querySelectorAll('.select-option').length + ' опций');
+  const soldOpt = [...wrap.querySelectorAll('.select-option')].find((o) => o.textContent.trim() === 'Продан');
+  click(w, soldOpt);
+  check('выбор опции фильтрует и обновляет кнопку',
+    d.getElementById('shop-status').value === 'sold' &&
+    wrap.querySelector('.select-btn').textContent.trim() === 'Продан' &&
+    d.querySelectorAll('#products-grid .product-card').length === 1 && !wrap.classList.contains('is-open'),
+    d.querySelectorAll('#products-grid .product-card').length + ' карточек');
+  click(w, wrap.querySelector('.select-btn'));
+  click(w, [...wrap.querySelectorAll('.select-option')].find((o) => o.textContent.trim() === 'Все'));
+  check('возврат к «Все» показывает 15 карточек', d.querySelectorAll('#products-grid .product-card').length === 15);
 
   /* ---------- 3. Бронь из каталога ---------- */
   console.log('\n3) Бронь');
@@ -209,7 +231,7 @@ try {
     /AGRU-2210/.test(d.getElementById('cont-note').textContent), d.querySelectorAll('#products-grid .product-card').length + ' позиций');
   const cont = d.getElementById('cont-note').querySelector('#cont-reset');
   click(w, cont);
-  check('сброс фильтра контейнера', d.querySelectorAll('#products-grid .product-card').length === 16);
+  check('сброс фильтра контейнера', d.querySelectorAll('#products-grid .product-card').length === 15);
   const badgesNow = [...d.querySelectorAll('#products-grid .st-badge')].map((b) => b.textContent.trim());
   check('стикер «Забронировано» появился после подтверждения', badgesNow.filter((b) => b === 'Забронировано').length >= 2,
     badgesNow.join(' | '));

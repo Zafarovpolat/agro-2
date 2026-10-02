@@ -88,6 +88,14 @@ for (const f of UI.filter((f) => f.endsWith('.html'))) {
   inline.length ? bad(f + ': инлайновые стили: ' + inline.join(' | ')) : ok(f + ': инлайновых стилей нет');
 }
 
+console.log('\n6б) Ховер карточки');
+const overlay = [...UI.filter((f) => f.endsWith('.html') || f.endsWith('.js') || f.endsWith('.css'))]
+  .filter((f) => read(f).includes('product-card-overlay'));
+overlay.length ? bad('затемнение и кнопка «Подробнее» на ховере не должны возвращаться: ' + overlay.join(', '))
+               : ok('на ховере нет затемнения и «Подробнее» (сердечко и стикер доступны)');
+const inlineOnclick = UI.filter((f) => f.endsWith('.html')).filter((f) => /onclick="/.test(read(f)));
+inlineOnclick.length ? bad('инлайновые onclick остались: ' + inlineOnclick.join(', ')) : ok('инлайновых onclick нет');
+
 console.log('\n7) Классы-утилиты системы');
 const utilClasses = ['.section--white', '.section--soft', '.header-left', '.menu-toggle.is-open', '.mobile-menu-phone',
   '.lang-switch-mobile', '.section-header.is-center', '.section-more', '.actions-center', '.btn-block', '.form-note',

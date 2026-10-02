@@ -201,10 +201,9 @@
         <img src="${esc(img)}" alt="${esc(name)}" />
         <span class="st-badge st-badge-float ${st}">${esc(statusLabel(p.status))}</span>
         ${p.container && p.container !== 'склад' ? `<span class="cont-tag">${esc(t('cnt.container', 'Контейнер'))} ${esc(p.container)}</span>` : ''}
-        <button type="button" class="product-card-fav" aria-label="${esc(t('card.fav', 'В избранное'))}">
+        <button type="button" class="product-card-fav" aria-label="${esc(t('card.fav', 'В избранное'))}" aria-pressed="false">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
         </button>
-        <div class="product-card-overlay" aria-hidden="true"><span class="btn btn-sm">${esc(t('btn.details', 'Подробнее'))}</span></div>
       </div>
       <h3>${esc(name)}</h3>
       <div class="product-card-price">${p.price ? p.price.toLocaleString('ru-RU') + ' €' : esc(t('prod.price.request', 'По запросу'))}</div>
@@ -217,8 +216,13 @@
   /* ---------- каталог: фильтры ---------- */
   const state = { q: '', cat: 'all', status: 'all', free: false, sort: 'arrival', cont: '' };
 
+  /* Проданная техника в витрине не показывается: её видно только если
+     явно выбрать статус «Продан» в фильтре (и в админке — там всё). */
+  const showSold = () => state.status === 'sold';
+
   function visible() {
     let list = allProducts().filter((p) => {
+      if (p.status === 'sold' && !showSold()) return false;
       if (state.cont && p.container !== state.cont) return false;
       if (state.cat !== 'all' && p.cat !== state.cat) return false;
       const unavailable = p.status === 'reserved' || p.status === 'sold';
@@ -241,7 +245,7 @@
     const grid = document.getElementById('products-grid');
     if (!grid) return;
     const list = visible();
-    const total = allProducts().length;
+    const total = allProducts().filter((p) => p.status !== 'sold' || showSold()).length;
     grid.innerHTML = list.map((p, i) => cardHTML(p, i % 4)).join('') ||
       `<div class="catalog-empty">${esc(t('catalog.nothing', 'Ничего не найдено — измените фильтры'))}</div>`;
 
@@ -259,6 +263,79 @@
     animate();
     relang();
   }
+
+  /* ---------- кастомный выпадающий список ----------
+     Нативный select скрыт и работает источником значения; клики обрабатывает
+     своя кнопка и своё меню — иначе список опций рисует ОС и он «не кастомный». */
+  function enhanceSelects() {
+    document.querySelectorAll('select.shop-select').forEach((sel) => {
+      if (sel.dataset.custom) return;
+      sel.dataset.custom = '1';
+      sel.classList.add('select-native');
+
+      const wrap = sel.closest('.select') || sel.parentElement;
+      wrap.classList.add('select');
+
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'select-btn';
+      btn.setAttribute('aria-haspopup', 'listbox');
+      btn.setAttribute('aria-expanded', 'false');
+
+      const menu = document.createElement('div');
+      menu.className = 'select-menu';
+      menu.setAttribute('role', 'listbox');
+
+      const currentLabel = () => (sel.options[sel.selectedIndex] || {}).textContent || '';
+      const syncLabel = () => {
+        btn.innerHTML = `<span>${esc(currentLabel().trim())}</span>` + ico('chevron');
+      };
+      const buildMenu = () => {
+        menu.innerHTML = [...sel.options].map((o) =>
+          `<button type="button" class="select-option${o.selected ? ' is-selected' : ''}" role="option"` +
+          ` aria-selected="${o.selected}" data-value="${esc(o.value)}">${esc(o.textContent.trim())}</button>`).join('');
+      };
+      const close = () => { wrap.classList.remove('is-open'); btn.setAttribute('aria-expanded', 'false'); };
+      const open = () => { buildMenu(); wrap.classList.add('is-open'); btn.setAttribute('aria-expanded', 'true'); };
+
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        wrap.classList.contains('is-open') ? close() : open();
+      });
+      menu.addEventListener('click', (e) => {
+        const opt = e.target.closest('.select-option');
+        if (!opt) return;
+        sel.value = opt.dataset.value;
+        sel.dispatchEvent(new Event('change', { bubbles: true }));   // логика фильтров слушает нативный select
+        syncLabel();
+        close();
+        btn.focus();
+      });
+      sel.addEventListener('change', syncLabel);
+      wrap.appendChild(btn);
+      wrap.appendChild(menu);
+      sel._syncLabel = syncLabel;          // пригодится при сбросе фильтров
+      syncLabel();
+    });
+  }
+
+  // закрыть открытые списки при клике мимо и по Esc
+  document.addEventListener('click', (e) => {
+    document.querySelectorAll('.select.is-open').forEach((w) => {
+      if (!w.contains(e.target)) w.classList.remove('is-open');
+    });
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Escape') return;
+    document.querySelectorAll('.select.is-open').forEach((w) => {
+      w.classList.remove('is-open');
+      const b = w.querySelector('.select-btn'); if (b) b.focus();
+    });
+  });
+  // как у нативного селекта: при прокрутке список закрывается
+  window.addEventListener('scroll', () => {
+    document.querySelectorAll('.select.is-open').forEach((w) => w.classList.remove('is-open'));
+  }, { passive: true });
 
   /* ---------- контейнеры в пути ---------- */
   function renderContainers() {
@@ -538,12 +615,22 @@
       if (st) st.value = 'all';
       if (sr) sr.value = 'arrival';
       if (fr) fr.checked = false;
+      document.querySelectorAll('select.shop-select').forEach((s2) => s2._syncLabel && s2._syncLabel());
       document.querySelectorAll('.filter-btn').forEach((b) => b.classList.toggle('active', b.dataset.filter === 'all'));
       renderCatalog();
     });
 
     // кнопки «Забронировать» в карточках и на странице товара
     document.addEventListener('click', (e) => {
+      // сердечко: переключаем состояние, по ссылке не уходим
+      const fav = e.target.closest('.product-card-fav');
+      if (fav) {
+        e.preventDefault();
+        e.stopPropagation();
+        const on = fav.classList.toggle('is-active');
+        fav.setAttribute('aria-pressed', String(on));
+        return;
+      }
       const btn = e.target.closest('[data-act="book"]');
       if (btn && !btn.disabled) {
         e.preventDefault();
@@ -595,6 +682,7 @@
     document.addEventListener('click', (e) => {
       if (e.target.closest('.lang-btn')) setTimeout(() => {
         renderCatalog(); renderContainers(); renderProduct(); enhanceFeatured(); renderAdminRows();
+        document.querySelectorAll('select.shop-select').forEach((s2) => s2._syncLabel && s2._syncLabel());
       }, 0);
     });
   }
@@ -606,6 +694,7 @@
     if (params.get('cat')) state.cat = params.get('cat');
 
     mountModal();
+    enhanceSelects();
     bind();
     renderCatalog();
     renderContainers();

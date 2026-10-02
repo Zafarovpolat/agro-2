@@ -571,24 +571,6 @@ h1, h2, h3, h4, h5, h6 {
 .product-card-fav:hover { background: var(--white); }
 .product-card-fav:hover svg { color: var(--danger); }
 
-.product-card-overlay {
-  position: absolute;
-  inset: 0;
-  background: rgba(17,24,39,.25);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-  transition: opacity var(--transition);
-  z-index: 2;
-}
-.product-card:hover .product-card-overlay { opacity: 1; }
-.product-card-overlay .btn {
-  transform: translateY(8px);
-  transition: transform var(--transition);
-}
-.product-card:hover .product-card-overlay .btn { transform: translateY(0); }
-
 .product-card h3 {
   font-size: 15px;
   font-weight: 600;
@@ -876,6 +858,10 @@ h1, h2, h3, h4, h5, h6 {
   align-items: center;
   gap: 10px;
   margin-bottom: 24px;
+  /* .fade-up (анимация появления) создаёт слой: без z-index выпадающий
+     список фильтров уходил под карточки каталога */
+  position: relative;
+  z-index: 5;
 }
 .filter-btn {
   padding: 10px 20px;
@@ -956,10 +942,10 @@ h1, h2, h3, h4, h5, h6 {
   margin-bottom: 12px;
 }
 .product-price {
-  font-size: 28px;
-  font-weight: 800;
+  font-size: 24px;
+  font-weight: 700;
   color: var(--primary);
-  margin-bottom: 24px;
+  margin-bottom: 20px;
 }
 .product-description {
   font-size: 15px;
@@ -1506,10 +1492,13 @@ textarea.form-input {
 }
 .product-card-fav,
 .product-card-book { z-index: 2; }
-/* оверлей «Подробнее»: лежит поверх стикера и сердечка (z-index 4),
-   но клик не перехватывает — сквозь него работает растянутая ссылка */
-.product-card-overlay { z-index: 4; pointer-events: none; }
-.product-card-overlay .btn { background: var(--white); color: var(--dark); }
+
+/* сердечко: клик переключает состояние, иконка заливается */
+.product-card-fav.is-active { background: var(--white); }
+.product-card-fav.is-active svg { color: var(--danger); fill: var(--danger); }
+/* На ховере карточки нет затемнения и кнопки «Подробнее»: они закрывали
+   стикер статуса и сердечко, из-за чего по «избранному» было не попасть.
+   Клик по всей карточке делает растянутая ссылка .product-card-hit. */
 
 /* ---------- Панель фильтров каталога ---------- */
 .shop-controls {
@@ -1518,7 +1507,7 @@ textarea.form-input {
   align-items: center;
   gap: 12px;
   width: 100%;
-  margin-top: 20px;
+  margin-top: 10px;
   padding-top: 20px;
   border-top: 1px solid var(--border);
 }
@@ -1598,10 +1587,10 @@ textarea.form-input {
 }
 .cont-card {
   display: grid;
-  gap: 6px;
-  padding: 20px;
+  gap: 4px;
+  padding: 16px 18px;
   border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius);
   background: var(--white);
   transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
 }
@@ -1618,26 +1607,26 @@ textarea.form-input {
 }
 .cont-code {
   color: var(--dark);
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 700;
   letter-spacing: .02em;
   font-variant-numeric: tabular-nums;
 }
 .cont-days {
-  padding: 4px 10px;
+  padding: 3px 9px;
   border-radius: var(--radius-full);
   background: var(--bg);
-  color: var(--text);
-  font-size: 11.5px;
+  color: var(--text-light);
+  font-size: 11px;
   font-weight: 600;
   white-space: nowrap;
   font-variant-numeric: tabular-nums;
 }
 .cont-days.is-late { background: var(--st-late-bg); color: var(--st-late-fg); }
-.cont-units { color: var(--text); font-size: 14px; font-weight: 600; }
-.cont-date { color: var(--text-light); font-size: 13.5px; font-variant-numeric: tabular-nums; }
-.cont-free { color: var(--primary-dark); font-size: 13.5px; font-weight: 600; }
-.cont-note { color: var(--text-light); font-size: 13px; line-height: 1.5; }
+.cont-units { color: var(--text); font-size: 13px; font-weight: 600; }
+.cont-date { color: var(--text-light); font-size: 12.5px; font-variant-numeric: tabular-nums; }
+.cont-free { color: var(--primary-dark); font-size: 12.5px; font-weight: 600; }
+.cont-note { color: var(--text-light); font-size: 12px; line-height: 1.45; }
 
 /* ---------- Блок «Как купить» ---------- */
 .how-steps {
@@ -1721,27 +1710,71 @@ textarea.form-input {
   fill: currentColor;
 }
 
-/* ---------- Кастомные селекты фильтров ---------- */
+/* ---------- Кастомный выпадающий список ----------
+   Нативный <select> остаётся в разметке источником значения, но визуально
+   его заменяют своя кнопка и своё меню: список опций рисует браузер/ОС,
+   и стилизовать его через CSS нельзя. Всё строит enhanceSelects() в shop.js. */
 .select { position: relative; display: inline-flex; }
-.select .ico {
+.select-native {
   position: absolute;
-  right: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 16px;
-  height: 16px;
-  color: var(--text-light);
+  width: 1px;
+  height: 1px;
+  opacity: 0;
   pointer-events: none;
 }
-.select:hover .ico { color: var(--primary); }
-.shop-select {
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  padding-right: 38px;
+.select-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-width: 180px;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--white);
+  font-family: inherit;
+  font-size: 14px;
+  color: var(--dark);
   cursor: pointer;
+  transition: border-color var(--transition);
 }
-.shop-select option { color: var(--dark); background: var(--white); }
+.select-btn:hover { border-color: var(--primary); }
+.select-btn .ico { color: var(--text-light); transition: transform var(--transition); }
+.select.is-open .select-btn { border-color: var(--primary); }
+.select.is-open .select-btn .ico { transform: rotate(180deg); color: var(--primary); }
+.select-menu {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  z-index: 30;
+  display: none;
+  min-width: 100%;
+  width: max-content;      /* длинные пункты не должны обрезаться */
+  max-width: 320px;
+  padding: 6px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--white);
+  box-shadow: var(--shadow-xl);
+}
+.select.is-open .select-menu { display: block; }
+.select-option {
+  display: block;
+  width: 100%;
+  padding: 10px 12px;
+  border: 0;
+  border-radius: 8px;
+  background: none;
+  font-family: inherit;
+  font-size: 14px;
+  color: var(--text);
+  text-align: left;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background var(--transition), color var(--transition);
+}
+.select-option:hover { background: var(--bg); color: var(--dark); }
+.select-option.is-selected { background: var(--primary-50); color: var(--primary-dark); font-weight: 600; }
 
 /* ---------- Модальное окно брони ---------- */
 .book-overlay {
@@ -1929,9 +1962,10 @@ textarea.form-input {
 }
 @media (max-width: 768px) {
   .shop-input,
-  .shop-select,
+  .select,
   .shop-controls .shop-check,
   .shop-controls .btn { flex: 1 1 100%; }
+  .shop-controls .select-btn { width: 100%; }
   .book-row { grid-template-columns: 1fr; }
   .cont-strip { grid-template-columns: 1fr; gap: 16px; }
 }
