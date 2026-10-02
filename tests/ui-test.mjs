@@ -211,6 +211,23 @@ try {
   check('демо-данные очищены', !w.localStorage.getItem('agronord-overrides') && !w.localStorage.getItem('agronord-bookings'));
   w.close();
 
+  /* ---------- 8. Остальные страницы: без ошибок, без инлайновых стилей ---------- */
+  console.log('\n8) Остальные страницы');
+  for (const path of ['/about.html', '/service.html', '/contacts.html', '/admin.html']) {
+    const dm = await open(path);
+    const dd = dm.window.document, ww = dm.window;
+    check(path + ': ошибок JS нет', ww.__errors.length === 0, ww.__errors.join('; '));
+    const inlineEls = dd.querySelectorAll('[style]').length;
+    check(path + ': инлайновых style="" нет', inlineEls === 0, inlineEls + ' шт.');
+    const tg = dd.querySelector('.menu-toggle');
+    if (tg) {
+      click(ww, tg);
+      check(path + ': меню открывается классом .is-open',
+        tg.classList.contains('is-open') && dd.querySelector('.mobile-menu').classList.contains('open'));
+    }
+    ww.close();
+  }
+
   console.log(`\nИТОГ: ${pass} пройдено, ${fail} провалено`);
   process.exit(fail ? 1 : 0);
 } catch (e) {

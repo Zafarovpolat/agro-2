@@ -13,7 +13,7 @@
   <!-- ===== Header ===== -->
   <header class="header" id="header">
     <div class="container header-inner">
-      <div style="display:flex;align-items:center;gap:40px;">
+      <div class="header-left">
         <a href="index.html" class="header-logo">
           <img src="public/logo.svg" alt="AgroNord" />
         </a>
@@ -25,11 +25,6 @@
         </nav>
       </div>
       <div class="header-actions">
-        <a href="catalog.html" class="header-fav" title="Избранное" style="display:none;">
-          <!-- heart icon -->
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
-          <span class="header-fav-badge">3</span>
-        </a>
         <a href="tel:+37360123456" class="header-phone">
           <!-- phone icon -->
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
@@ -43,7 +38,7 @@
           <!-- hamburger -->
           <svg class="menu-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
           <!-- close -->
-          <svg class="close-icon" style="display:none" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+          <svg class="close-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
         </button>
       </div>
     </div>
@@ -54,12 +49,12 @@
       <a href="service.html" data-i18n="nav.service">Сервис</a>
       <a href="contacts.html" data-i18n="nav.contacts">Контакты</a>
       <div class="mobile-menu-footer">
-        <a href="tel:+37360123456" style="display:flex;align-items:center;gap:8px;font-weight:600;color:var(--dark);">
+        <a href="tel:+37360123456" class="mobile-menu-phone">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
           +373 60 123 456
         </a>
       </div>
-    <div class="lang-switch" style="margin-top:16px;justify-content:center;">
+    <div class="lang-switch lang-switch-mobile">
         <button class="lang-btn active" data-lang="ru">RU</button>
         <button class="lang-btn" data-lang="ro">RO</button>
       </div>
@@ -132,7 +127,7 @@
     </section>
 
     <!-- ===== Featured Products ===== -->
-    <section class="section" style="background:var(--bg);">
+    <section class="section section--soft">
       <div class="container">
         <div class="featured-grid">
           <a href="product.html?id=1" class="featured-card large fade-up">
@@ -164,7 +159,7 @@
     </section>
 
     <!-- ===== Catalog Preview ===== -->
-    <section class="section" id="catalog" style="background:var(--white);">
+    <section class="section section--white" id="catalog">
       <div class="container">
         <div class="section-header fade-up">
           <div>
@@ -184,7 +179,7 @@
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
               </button>
               <div class="product-card-overlay">
-                <span class="btn btn-sm" style="background:var(--white);color:var(--dark);" data-i18n="btn.details">Подробнее</span>
+                <span class="btn btn-sm" data-i18n="btn.details">Подробнее</span>
               </div>
             </div>
             <h3 data-i18n="prod.plow">Плуг оборотный 5-корпусный</h3>
@@ -196,7 +191,7 @@
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
               </button>
               <div class="product-card-overlay">
-                <span class="btn btn-sm" style="background:var(--white);color:var(--dark);" data-i18n="btn.details">Подробнее</span>
+                <span class="btn btn-sm" data-i18n="btn.details">Подробнее</span>
               </div>
             </div>
             <h3 data-i18n="prod.cultivator">Культиватор стерневой</h3>
@@ -208,7 +203,7 @@
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
               </button>
               <div class="product-card-overlay">
-                <span class="btn btn-sm" style="background:var(--white);color:var(--dark);" data-i18n="btn.details">Подробнее</span>
+                <span class="btn btn-sm" data-i18n="btn.details">Подробнее</span>
               </div>
             </div>
             <h3 data-i18n="prod.sprayer">Опрыскиватель прицепной</h3>
@@ -220,7 +215,7 @@
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
               </button>
               <div class="product-card-overlay">
-                <span class="btn btn-sm" style="background:var(--white);color:var(--dark);" data-i18n="btn.details">Подробнее</span>
+                <span class="btn btn-sm" data-i18n="btn.details">Подробнее</span>
               </div>
             </div>
             <h3 data-i18n="prod.spreader">Разбрасыватель удобрений</h3>
@@ -232,7 +227,7 @@
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
               </button>
               <div class="product-card-overlay">
-                <span class="btn btn-sm" style="background:var(--white);color:var(--dark);" data-i18n="btn.details">Подробнее</span>
+                <span class="btn btn-sm" data-i18n="btn.details">Подробнее</span>
               </div>
             </div>
             <h3 data-i18n="prod.mower">Косилка дисковая</h3>
@@ -244,7 +239,7 @@
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
               </button>
               <div class="product-card-overlay">
-                <span class="btn btn-sm" style="background:var(--white);color:var(--dark);" data-i18n="btn.details">Подробнее</span>
+                <span class="btn btn-sm" data-i18n="btn.details">Подробнее</span>
               </div>
             </div>
             <h3 data-i18n="prod.baler">Пресс-подборщик</h3>
@@ -256,7 +251,7 @@
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
               </button>
               <div class="product-card-overlay">
-                <span class="btn btn-sm" style="background:var(--white);color:var(--dark);" data-i18n="btn.details">Подробнее</span>
+                <span class="btn btn-sm" data-i18n="btn.details">Подробнее</span>
               </div>
             </div>
             <h3 data-i18n="prod.harrow">Борона дисковая</h3>
@@ -268,20 +263,20 @@
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
               </button>
               <div class="product-card-overlay">
-                <span class="btn btn-sm" style="background:var(--white);color:var(--dark);" data-i18n="btn.details">Подробнее</span>
+                <span class="btn btn-sm" data-i18n="btn.details">Подробнее</span>
               </div>
             </div>
             <h3 data-i18n="prod.cornheader">Жатка для кукурузы</h3>
           </a>
         </div>
-        <div style="text-align:center;margin-top:48px;" class="fade-up">
+        <div class="section-more fade-up">
           <a href="catalog.html" class="btn btn-secondary" data-i18n="btn.viewall">Смотреть все товары</a>
         </div>
       </div>
     </section>
 
     <!-- Containers -->
-    <section class="section" style="background:var(--bg);">
+    <section class="section section--soft">
       <div class="container">
         <div class="section-header fade-up">
           <div>
@@ -294,7 +289,7 @@
     </section>
 
     <!-- How to buy -->
-    <section class="section" style="background:var(--white);">
+    <section class="section section--white">
       <div class="container">
         <div class="section-header fade-up">
           <div>
@@ -336,11 +331,11 @@
     </section>
 
     <!-- ===== Advantages ===== -->
-    <section class="section" style="background:var(--bg);">
+    <section class="section section--soft">
       <div class="container">
-        <div style="text-align:center;margin-bottom:64px;" class="fade-up">
-          <h2 style="font-size:clamp(28px,4vw,40px);margin-bottom:12px;" data-i18n="adv.title">Наши преимущества</h2>
-          <p style="color:var(--text-light);max-width:600px;margin:0 auto;font-size:16px;" data-i18n="adv.subtitle">Мы стремимся быть лучшим партнёром для вашего агробизнеса, предлагая комплексные решения.</p>
+        <div class="section-header is-center fade-up">
+          <h2 data-i18n="adv.title">Наши преимущества</h2>
+          <p data-i18n="adv.subtitle">Мы стремимся быть лучшим партнёром для вашего агробизнеса, предлагая комплексные решения.</p>
         </div>
         <div class="advantages-grid">
           <div class="advantage-card fade-up">

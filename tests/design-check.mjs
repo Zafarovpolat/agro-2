@@ -11,6 +11,7 @@
    ============================================================ */
 import { readFileSync, readdirSync } from 'node:fs';
 
+const HEAD_LEFT_RE = /style="display:flex;align-items:center;gap:40px;"/;
 const UI = ['index.html', 'catalog.html', 'product.html', 'about.html', 'service.html', 'contacts.html', 'admin.html',
   'js/i18n.js', 'js/main.js', 'js/shop.js', 'js/data.js', 'css/style.css', 'tests/ui-test.mjs', 'README.md'];
 
@@ -82,17 +83,22 @@ for (const f of UI.filter((f) => f.endsWith('.html'))) {
 
 /* ---------- 6. инлайновые стили в новых файлах ---------- */
 console.log('\n6) Инлайновые style=""');
-const ALLOWED = [/display:flex;align-items:center;gap:40px;/, /background:var\(--bg\)/, /background:var\(--white\)/, /display:flex;align-items:center;gap:6px;/];
-// admin.html — новая страница из последнего коммита: инлайновых стилей быть не должно
-for (const f of ['admin.html']) {
-  const inline = [...read(f).matchAll(/style="([^"]*)"/g)].map((m) => m[1]).filter((v) => !ALLOWED.some((re) => re.test(v)));
+for (const f of UI.filter((f) => f.endsWith('.html'))) {
+  const inline = [...read(f).matchAll(/style="([^"]*)"/g)].map((m) => m[1]);
   inline.length ? bad(f + ': инлайновые стили: ' + inline.join(' | ')) : ok(f + ': инлайновых стилей нет');
 }
-// остальные страницы — базовая вёрстка; style="display:none" управляется js/main.js, это не долг этой доработки
-for (const f of ['index.html', 'catalog.html', 'product.html', 'about.html', 'service.html', 'contacts.html']) {
-  const inline = [...read(f).matchAll(/style="([^"]*)"/g)].map((m) => m[1]).filter((v) => !ALLOWED.some((re) => re.test(v)));
-  console.log('  INFO  ' + f + ': инлайновых стилей ' + inline.length + ' — базовая вёрстка, вне правки');
-}
+
+console.log('\n7) Классы-утилиты системы');
+const utilClasses = ['.section--white', '.section--soft', '.header-left', '.menu-toggle.is-open', '.mobile-menu-phone',
+  '.lang-switch-mobile', '.section-header.is-center', '.section-more', '.actions-center', '.btn-block', '.form-note',
+  '.breadcrumbs.is-offset', '.footer-backlink'];
+const notInCss = utilClasses.filter((c) => !css.includes(c.split('.')[1].split(':')[0]) || !css.includes(c));
+notInCss.length ? bad('в CSS нет классов: ' + notInCss.join(', ')) : ok('все классы-утилиты объявлены (' + utilClasses.length + ' шт.)');
+const pages = UI.filter((f) => f.endsWith('.html'));
+const oldInline = [HEAD_LEFT_RE, /style="display:none"/, /style="background:var\(--(bg|white)\)/, /style="color:var\(--primary\)"/];
+const legacy = [];
+for (const f of pages) for (const re of oldInline) if (re.test(read(f))) legacy.push(f + ' → ' + re);
+legacy.length ? bad('остались инлайновые приёмы: ' + legacy.join(', ')) : ok('фон секций, скрытые иконки и активная ссылка — классами');
 
 console.log('\n' + (fail ? 'ИТОГ: проверка дизайн-системы НЕ пройдена (' + fail + ' замечаний)' : 'ИТОГ: проверка дизайн-системы пройдена'));
 process.exit(fail ? 1 : 0);

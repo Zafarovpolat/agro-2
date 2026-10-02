@@ -13,7 +13,7 @@
   <!-- Header -->
   <header class="header scrolled" id="header">
     <div class="container header-inner">
-      <div style="display:flex;align-items:center;gap:40px;">
+      <div class="header-left">
         <a href="index.html" class="header-logo"><img src="public/logo.svg" alt="AgroNord" /></a>
         <nav class="header-nav">
           <a href="catalog.html" data-i18n="nav.catalog">Каталог</a>
@@ -33,7 +33,7 @@
         </div>
         <button class="menu-toggle" aria-label="Меню">
           <svg class="menu-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
-          <svg class="close-icon" style="display:none" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+          <svg class="close-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
         </button>
       </div>
     </div>
@@ -42,7 +42,7 @@
       <a href="about.html" data-i18n="nav.about">О нас</a>
       <a href="service.html" data-i18n="nav.service">Сервис</a>
       <a href="contacts.html" data-i18n="nav.contacts">Контакты</a>
-    <div class="lang-switch" style="margin-top:16px;justify-content:center;">
+    <div class="lang-switch lang-switch-mobile">
         <button class="lang-btn active" data-lang="ru">RU</button>
         <button class="lang-btn" data-lang="ro">RO</button>
       </div>
@@ -51,7 +51,7 @@
 
   <main>
     <!-- Breadcrumbs -->
-    <div class="breadcrumbs" style="margin-top:76px;">
+    <div class="breadcrumbs is-offset">
       <div class="container">
         <div class="breadcrumbs-list">
           <a href="index.html" data-i18n="bc.home">Главная</a>
@@ -69,7 +69,7 @@
     </section>
 
     <!-- Related Products -->
-    <section class="section" style="background:var(--bg);">
+    <section class="section section--soft">
       <div class="container">
         <div class="section-header fade-up">
           <div>

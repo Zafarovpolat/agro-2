@@ -13,11 +13,11 @@
   <!-- Header -->
   <header class="header scrolled" id="header">
     <div class="container header-inner">
-      <div style="display:flex;align-items:center;gap:40px;">
+      <div class="header-left">
         <a href="index.html" class="header-logo"><img src="public/logo.svg" alt="AgroNord" /></a>
         <nav class="header-nav">
           <a href="catalog.html" data-i18n="nav.catalog">Каталог</a>
-          <a href="about.html" style="color:var(--primary);" data-i18n="nav.about">О нас</a>
+          <a href="about.html" class="is-current" data-i18n="nav.about">О нас</a>
           <a href="service.html" data-i18n="nav.service">Сервис</a>
           <a href="contacts.html" data-i18n="nav.contacts">Контакты</a>
         </nav>
@@ -33,7 +33,7 @@
         </div>
         <button class="menu-toggle" aria-label="Меню">
           <svg class="menu-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
-          <svg class="close-icon" style="display:none" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+          <svg class="close-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
         </button>
       </div>
     </div>
@@ -42,7 +42,7 @@
       <a href="about.html" data-i18n="nav.about">О нас</a>
       <a href="service.html" data-i18n="nav.service">Сервис</a>
       <a href="contacts.html" data-i18n="nav.contacts">Контакты</a>
-    <div class="lang-switch" style="margin-top:16px;justify-content:center;">
+    <div class="lang-switch lang-switch-mobile">
         <button class="lang-btn active" data-lang="ru">RU</button>
         <button class="lang-btn" data-lang="ro">RO</button>
       </div>
@@ -68,7 +68,7 @@
     </div>
 
     <!-- About -->
-    <section class="about-section" style="background:var(--white);">
+    <section class="about-section section--white">
       <div class="container">
         <div class="about-grid">
           <div class="about-image fade-up">
@@ -109,11 +109,11 @@
     </section>
 
     <!-- Values -->
-    <section class="about-section" style="background:var(--bg);">
+    <section class="about-section section--soft">
       <div class="container">
-        <div style="text-align:center;margin-bottom:48px;" class="fade-up">
-          <h2 style="font-size:clamp(28px,4vw,36px);margin-bottom:12px;" data-i18n="about.values.title">Наши ценности</h2>
-          <p style="color:var(--text-light);max-width:500px;margin:0 auto;">Принципы, которыми мы руководствуемся в работе каждый день.</p>
+        <div class="section-header is-center fade-up">
+          <h2 data-i18n="about.values.title">Наши ценности</h2>
+          <p>Принципы, которыми мы руководствуемся в работе каждый день.</p>
         </div>
         <div class="values-grid">
           <div class="value-card fade-up">
@@ -146,7 +146,7 @@
       <div class="container">
         <div class="cta-inner">
           <h2 class="fade-up" data-i18n="about.cta.title" data-i18n-html>Хотите узнать больше?<br>Свяжитесь с нами!</h2>
-          <div class="fade-up delay-1" style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
+          <div class="actions-center fade-up delay-1">
             <a href="contacts.html" class="btn btn-accent btn-lg" data-i18n="about.cta.write">Написать нам</a>
             <a href="tel:+37360123456" class="btn btn-white btn-lg" data-i18n="about.cta.call">Позвонить</a>
           </div>

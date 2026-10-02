@@ -380,8 +380,8 @@
           <div class="form-group"><label for="book-phone">${esc(t('form.phone', 'Телефон'))}</label><input class="form-input" id="book-phone" name="phone" type="tel" autocomplete="tel" required placeholder="+373 ___ ___ ___" /></div>
           <div class="form-group"><label for="book-comment">${esc(t('form.comment', 'Комментарий'))}</label><textarea class="form-input" id="book-comment" name="comment" rows="2"></textarea></div>
           <label class="book-consent"><input type="checkbox" id="book-consent" name="consent" required /> <span>${esc(t('form.consent', 'Согласен на обработку персональных данных'))}</span></label>
-          <button type="submit" class="btn btn-accent btn-lg book-submit">${esc(t('btn.reserve', 'Забронировать'))}</button>
-          <p class="book-note">${esc(t('form.note', 'Менеджер позвонит, подтвердит наличие и расскажет про предоплату.'))}</p>
+          <button type="submit" class="btn btn-accent btn-lg btn-block">${esc(t('btn.reserve', 'Забронировать'))}</button>
+          <p class="form-note">${esc(t('form.note', 'Менеджер позвонит, подтвердит наличие и расскажет про предоплату.'))}</p>
         </form>
         <div id="book-done" class="book-done" hidden>
           ${ico('checkCircle', 'ico')}

@@ -29,21 +29,19 @@ function initHeader() {
 function initMobileMenu() {
   const toggle = document.querySelector('.menu-toggle');
   const menu = document.querySelector('.mobile-menu');
-  const icon = toggle?.querySelector('.menu-icon');
-  const closeIcon = toggle?.querySelector('.close-icon');
   if (!toggle || !menu) return;
 
+  // состояние иконок «бургер/крестик» задаётся классом .is-open (css/style.css),
+  // а не инлайновыми стилями из JS
   toggle.addEventListener('click', () => {
     const isOpen = menu.classList.toggle('open');
-    if (icon) icon.style.display = isOpen ? 'none' : 'block';
-    if (closeIcon) closeIcon.style.display = isOpen ? 'block' : 'none';
+    toggle.classList.toggle('is-open', isOpen);
   });
 
   menu.querySelectorAll('a').forEach(link => {
     link.addEventListener('click', () => {
       menu.classList.remove('open');
-      if (icon) icon.style.display = 'block';
-      if (closeIcon) closeIcon.style.display = 'none';
+      toggle.classList.remove('is-open');
     });
   });
 }

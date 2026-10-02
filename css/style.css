@@ -34,6 +34,7 @@
   --st-sold-fg: #4B5563;               --st-sold-bg: #F3F4F6;              --st-sold-bd: var(--border);         /* 7.2:1 */
   --st-late-fg: #B91C1C;               --st-late-bg: #FEF2F2;              --st-late-bd: #FECACA;               /* 5.9:1 */
   --st-late-fg-dark: #FCA5A5;                                                                                     /* 9.1:1 на --dark */
+  --danger: #DC2626;                                                                                               /* служебный: избранное */
 }
 
 /* ---------- Reset & Base ---------- */
@@ -49,11 +50,19 @@ body {
   overflow-x: hidden;
 }
 
+/* Видимый фокус с клавиатуры — единственное состояние, о котором
+   базовая вёрстка не заботилась, а доступность требует. */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+
 img { max-width: 100%; height: auto; display: block; }
 a { text-decoration: none; color: inherit; transition: color var(--transition); }
 ul { list-style: none; }
 button { cursor: pointer; border: none; background: none; font-family: inherit; }
-input, textarea { font-family: inherit; }
+input, textarea, select { font-family: inherit; }
 
 h1, h2, h3, h4, h5, h6 {
   color: var(--dark);
@@ -558,7 +567,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 .product-card-fav svg { width: 16px; height: 16px; color: var(--text-light); }
 .product-card-fav:hover { background: var(--white); }
-.product-card-fav:hover svg { color: #EF4444; }
+.product-card-fav:hover svg { color: var(--danger); }
 
 .product-card-overlay {
   position: absolute;
@@ -1246,6 +1255,51 @@ textarea.form-input {
   .featured-card:not(.large) { min-height: 220px; }
 }
 
+/* ---------- Утилиты и варианты разметки ----------
+   Повторяющиеся приёмы, которые раньше задавались инлайновыми style=""
+   по страницам: фон секции, левая часть шапки, центрированный заголовок
+   секции и т. п. Теперь это классы дизайн-системы. */
+.section--white { background: var(--white); }
+.section--soft  { background: var(--bg); }
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+}
+.header-nav a.is-current { color: var(--primary); }
+.header:not(.scrolled) .header-nav a.is-current { color: var(--primary-light); }
+
+/* Мобильное меню: иконка закрытия показывается классом, а не из JS */
+.menu-toggle .close-icon { display: none; }
+.menu-toggle.is-open .menu-icon { display: none; }
+.menu-toggle.is-open .close-icon { display: block; }
+
+.mobile-menu-phone {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  color: var(--dark);
+}
+.lang-switch-mobile { margin-top: 16px; justify-content: center; }
+
+/* Заголовок секции по центру (преимущества, ценности, услуги) */
+.section-header.is-center { display: block; text-align: center; }
+.section-header.is-center p { margin-left: auto; margin-right: auto; }
+
+.section-more { text-align: center; margin-top: 48px; }
+.actions-center { display: flex; flex-wrap: wrap; justify-content: center; gap: 16px; }
+.btn-block { width: 100%; }
+.form-note {
+  margin-top: 12px;
+  color: var(--text-light);
+  font-size: 12px;
+  text-align: center;
+}
+.breadcrumbs.is-offset { margin-top: 76px; }
+.footer-backlink { display: flex; align-items: center; gap: 6px; }
+
 /* ============================================================
    ДОРАБОТКА ПО ЗАПРОСУ КЛИЕНТА
    Статусы товара, счётчик поставки, бронирование, контейнеры,
@@ -1469,10 +1523,9 @@ textarea.form-input {
 .shop-input { flex: 1 1 260px; min-width: 200px; }
 .shop-input::placeholder { color: var(--text-light); }
 .shop-input:focus,
-.shop-select:focus {
-  outline: none;
-  border-color: var(--primary);
-}
+.shop-select:focus { border-color: var(--primary); }
+.shop-input:focus:not(:focus-visible),
+.shop-select:focus:not(:focus-visible) { outline: none; }
 .shop-check {
   display: inline-flex;
   align-items: center;
@@ -1695,13 +1748,6 @@ textarea.form-input {
   margin-top: 2px;
   accent-color: var(--primary);
 }
-.book-submit { width: 100%; }
-.book-note {
-  margin-top: 12px;
-  color: var(--text-light);
-  font-size: 12.5px;
-  text-align: center;
-}
 .book-done {
   padding: 20px;
   border: 1px solid var(--primary-light);
@@ -1773,7 +1819,8 @@ textarea.form-input {
   color: var(--dark);
   transition: border-color var(--transition);
 }
-.admin-input:focus { outline: none; border-color: var(--primary); }
+.admin-input:focus { border-color: var(--primary); }
+.admin-input:focus:not(:focus-visible) { outline: none; }
 .admin-input-num { width: 88px; font-variant-numeric: tabular-nums; }
 .admin-input-block { display: block; margin-top: 8px; }
 .admin-sub {
