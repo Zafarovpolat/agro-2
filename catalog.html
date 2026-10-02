@@ -87,27 +87,28 @@
           <button class="filter-btn" data-filter="seeders" data-i18n="filter.seeders">Сеялки</button>
           <button class="filter-btn" data-filter="trailers" data-i18n="filter.trailers">Прицепы</button>
           <button class="filter-btn" data-filter="parts" data-i18n="filter.parts">Запчасти</button>
+        </div>
 
-          <div class="shop-controls">
-            <input class="shop-input" id="shop-search" type="search" data-i18n="catalog.search" placeholder="Поиск: марка, модель или серия..." />
-            <select class="shop-select" id="shop-status" aria-label="Статус">
-              <option value="all" data-i18n="filter.all">Все</option>
-              <option value="stock" data-i18n="status.stock">В наличии</option>
-              <option value="transit" data-i18n="status.transit">В дороге</option>
-              <option value="reserved" data-i18n="status.reserved">Забронировано</option>
-            </select>
-            <select class="shop-select" id="shop-sort" aria-label="Сортировка">
-              <option value="arrival" data-i18n="catalog.sort.arrival">по дате прибытия</option>
-              <option value="new" data-i18n="catalog.sort.new">сначала новые поступления</option>
-              <option value="name" data-i18n="catalog.sort.name">по названию</option>
-            </select>
-            <label class="shop-check"><input type="checkbox" id="shop-free" /> <span data-i18n="catalog.free">Только свободные</span></label>
-            <button type="button" class="btn btn-secondary btn-sm" id="shop-reset" data-i18n="catalog.reset">сбросить</button>
-          </div>
+        <!-- Поиск, статус и сортировка -->
+        <div class="shop-toolbar fade-up">
+          <input class="form-input" id="shop-search" type="search" data-i18n="catalog.search" placeholder="Поиск: марка, модель или серия..." />
+          <select class="shop-select" id="shop-status" aria-label="Статус">
+            <option value="all" data-i18n="filter.all">Все</option>
+            <option value="stock" data-i18n="status.stock">В наличии</option>
+            <option value="transit" data-i18n="status.transit">В дороге</option>
+            <option value="reserved" data-i18n="status.reserved">Забронировано</option>
+          </select>
+          <select class="shop-select" id="shop-sort" aria-label="Сортировка">
+            <option value="arrival" data-i18n="catalog.sort.arrival">по дате прибытия</option>
+            <option value="new" data-i18n="catalog.sort.new">сначала новые поступления</option>
+            <option value="name" data-i18n="catalog.sort.name">по названию</option>
+          </select>
+          <label class="shop-toggle"><input type="checkbox" id="shop-free" /> <span data-i18n="catalog.free">Только свободные</span></label>
+          <button type="button" class="btn btn-secondary btn-sm" id="shop-reset" data-i18n="catalog.reset">сбросить</button>
         </div>
 
         <div class="catalog-toolbar">
-          <span class="shop-count" id="shop-count"></span>
+          <span><span data-i18n="catalog.shown">показано</span> <b id="shop-shown">0</b> <span data-i18n="catalog.of">из</span> <b id="shop-total">0</b></span>
           <span id="cont-note"></span>
         </div>
 

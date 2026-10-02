@@ -210,7 +210,8 @@ const translations = {
   "cnt.expected":  { ru: "поставка ожидается", ro: "sosire estimată" },
   "cnt.soon":      { ru: "Ожидается со дня на день", ro: "Se așteaptă în orice zi" },
   "cnt.late":      { ru: "Рейс задерживается", ro: "Transportul întârzie" },
-  "cnt.late.sub":  { ru: "точную дату подтверждает менеджер", ro: "data exactă o confirmă managerul" },
+  "cnt.late.sub":   { ru: "точную дату подтверждает менеджер", ro: "data exactă o confirmă managerul" },
+  "cnt.late.short": { ru: "Дата уточняется", ro: "Data se precizează" },
   "cnt.calc":      { ru: "расчётная дата", ro: "data estimată" },
   "cnt.arrived":   { ru: "В Молдове с", ro: "În Moldova din" },
   "cnt.instock":   { ru: "В наличии на складе", ro: "Disponibil în depozit" },
@@ -239,9 +240,9 @@ const translations = {
   /* ---- Контейнеры ---- */
   "cont.title":  { ru: "Контейнеры в пути", ro: "Containere pe drum" },
   "cont.sub":    { ru: "Нажмите на контейнер, чтобы посмотреть, что в нём едет.", ro: "Apăsați pe container pentru a vedea ce sosește în el." },
-  "cont.units":  { ru: "позиций", ro: "poziții" },
+  "cont.units":      { ru: "позиций", ro: "poziții" },
   "cont.arrive": { ru: "прибытие", ro: "sosire" },
-  "cont.free":   { ru: "свободны для брони", ro: "libere pentru rezervare" },
+  "cont.free":       { ru: "Свободно для брони", ro: "Libere pentru rezervare" },
 
   /* ---- Блок «Как купить» ---- */
   "how.title":   { ru: "Как купить", ro: "Cum cumperi" },
@@ -279,6 +280,15 @@ const translations = {
   "admin.col.status":  { ru: "Статус", ro: "Statut" },
   "admin.col.term":    { ru: "Срок поставки", ro: "Termen de livrare" },
   "admin.col.arrival": { ru: "Дата прибытия", ro: "Data sosirii" },
+  "cnt.status.here":  { ru: "наличие", ro: "disponibilitate" },
+  "btn.fav":          { ru: "В избранное", ro: "La favorite" },
+  "p.serial.short":   { ru: "серия", ro: "serie" },
+  "how.1.label":      { ru: "Шаг 1", ro: "Pasul 1" },
+  "how.2.label":      { ru: "Шаг 2", ro: "Pasul 2" },
+  "how.3.label":      { ru: "Шаг 3", ro: "Pasul 3" },
+  "how.4.label":      { ru: "Шаг 4", ro: "Pasul 4" },
+  "admin.col.item":   { ru: "Позиция", ro: "Poziție" },
+  "admin.queue":      { ru: "Заявки на бронь", ro: "Cereri de rezervare" },
   /* ---- Демо-админка ---- */
   "admin.title":        { ru: "Демо-админка", ro: "Demo admin" },
   "admin.products":     { ru: "Техника", ro: "Utilaje" },
@@ -299,6 +309,9 @@ const translations = {
 
 /* ---- Language switcher logic ---- */
 function getLang() {
+  // Страница может зафиксировать язык (window.AGRO_FORCE_LANG) — используется
+  // на служебной странице-демо админки, которую не переводят.
+  if (typeof window !== 'undefined' && window.AGRO_FORCE_LANG) return window.AGRO_FORCE_LANG;
   return localStorage.getItem('agronord-lang') || 'ru';
 }
 

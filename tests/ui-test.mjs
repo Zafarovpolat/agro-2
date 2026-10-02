@@ -6,8 +6,10 @@
 */
 /* Автотест доработки agro-2: статусы, счётчик, фильтры, бронь, админка, RU/RO */
 import { JSDOM } from 'jsdom';
+import fs from 'fs';
 
 const BASE = 'http://127.0.0.1:8091';
+const ROOT = (process.env.PROJECT_ROOT || '/home/user/work/agro-2') + '/';
 let pass = 0, fail = 0;
 const check = (name, cond, extra = '') => {
   console.log((cond ? '  ✅ ' : '  ❌ ') + name + (extra ? ' → ' + extra : ''));
@@ -35,6 +37,7 @@ async function open(path, storage = {}, waitMs = 900) {
   await new Promise((r) => setTimeout(r, 120)); // дать DOMContentLoaded-обработчикам выполниться
   return dom;
 }
+
 const snap = (win) => Object.fromEntries(Object.keys(win.localStorage).map((k) => [k, win.localStorage.getItem(k)]));
 const click = (win, el) => el.dispatchEvent(new win.MouseEvent('click', { bubbles: true, cancelable: true }));
 const fire = (win, el, type) => el.dispatchEvent(new win.Event(type, { bubbles: true }));
@@ -108,8 +111,23 @@ try {
   sort.value = 'new'; fire(w, sort, 'change');
   check('сортировка «сначала новые поступления» работает', d.querySelectorAll('#products-grid .product-card').length === 16);
   sort.value = 'arrival'; fire(w, sort, 'change');
-  check('счётчик «показано N из N» заполнен', /показано 16 из 16/.test(d.getElementById('shop-count').textContent),
-    d.getElementById('shop-count').textContent.trim());
+  check('счётчик «показано N из N» заполнен',
+    d.getElementById('shop-shown').textContent === '16' && d.getElementById('shop-total').textContent === '16',
+    'показано ' + d.getElementById('shop-shown').textContent + ' из ' + d.getElementById('shop-total').textContent);
+  // оформление: в разметке не должно остаться эмодзи — только SVG-иконки сайта
+  const emoji = (d.getElementById('products-grid').innerHTML.match(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]/gu) || []);
+  check('в карточках нет эмодзи, только SVG-иконки', emoji.length === 0, emoji.slice(0, 5).join(' '));
+  const svgIcons = d.querySelectorAll('#products-grid svg').length;
+  check('иконки отрисованы как SVG', svgIcons > 10, svgIcons + ' иконок');
+  // оформление построено на токенах дизайн-системы (проверяем исходник CSS)
+  const cssSrc = fs.readFileSync(ROOT + 'css/style.css', 'utf8');
+  const tokenUse = [
+    ['.st-stock', 'var(--primary)'], ['.st-transit', 'var(--accent)'],
+    ['.count-bar i', 'var(--primary)'], ['.count-box.is-soon', 'var(--primary-50)'],
+    ['.cont-icon', 'var(--primary-light)'], ['.book-modal', 'var(--radius-lg)']
+  ].filter(([sel, tok]) => !new RegExp(sel.replace('.', '\\.') + '\\s*\\{[^}]*' + tok.replace(/[()]/g, '\\$&')).test(cssSrc));
+  check('все элементы доработки используют токены сайта', tokenUse.length === 0,
+    tokenUse.map(x => x[0]).join(', ') || 'все на токенах');
 
   /* ---------- 3. Бронь из каталога ---------- */
   console.log('\n3) Бронь');
@@ -138,7 +156,8 @@ try {
     d.querySelector('.product-info h1').textContent);
   check('статус «В дороге» в бейдже', d.querySelector('.st-badge').textContent.trim() === 'В дороге');
   check('серийный номер показан', /1RW8R4100PP118472/.test(d.querySelector('.product-meta').textContent));
-  check('счётчик поставки на странице', /До прибытия \d+/.test(d.querySelector('.count-box').textContent));
+  check('счётчик поставки на странице', /До прибытия\s*\d+/.test(d.querySelector('.count-box').textContent),
+    d.querySelector('.count-box').textContent.replace(/\s+/g, ' ').trim().slice(0, 60));
   check('кнопка «Забронировать»', d.querySelector('[data-act="book"]')?.textContent.trim() === 'Забронировать');
   check('характеристики подставлены', d.querySelectorAll('.product-specs tr').length === 5);
   check('похожие товары отрисованы', d.querySelectorAll('#related-grid .product-card').length === 4);
@@ -198,7 +217,7 @@ try {
   check('стикер «Забронировано» появился после подтверждения', badgesNow.filter((b) => b === 'Забронировано').length >= 2,
     badgesNow.join(' | '));
   const updatedCard = [...d.querySelectorAll('#products-grid .product-card')].find((c) => c.dataset.id === '3');
-  check('срок 10 дней из админки виден на витрине', /До прибытия 10 (дн|день|дня)/.test(updatedCard.querySelector('.count-box').textContent),
+  check('срок 10 дней из админки виден на витрине', /До прибытия\s*10\s*(дн|день|дня)/.test(updatedCard.querySelector('.count-box').textContent),
     updatedCard.querySelector('.count-box').textContent.replace(/\s+/g, ' ').trim().slice(0, 60));
   w.close();
 

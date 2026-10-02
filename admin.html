@@ -7,6 +7,7 @@
   <meta name="robots" content="noindex" />
   <link rel="icon" href="public/logo.svg" type="image/svg+xml">
   <link rel="stylesheet" href="css/style.css" />
+  <script>window.AGRO_FORCE_LANG = 'ru';</script>
 </head>
 <body>
 
@@ -22,10 +23,7 @@
       </div>
       <div class="header-actions">
         <button type="button" class="btn btn-secondary btn-sm" data-reset-demo data-i18n="admin.reset">Сбросить демо-данные</button>
-        <div class="lang-switch">
-          <button class="lang-btn active" data-lang="ru">RU</button>
-          <button class="lang-btn" data-lang="ro">RO</button>
-        </div>
+        <a href="catalog.html" class="btn btn-primary btn-sm">Открыть витрину</a>
       </div>
     </div>
   </header>
@@ -36,19 +34,22 @@
 
         <div class="admin-note">
           <b data-i18n="admin.title">Демо-админка.</b>
-          Это макет того, как менеджер будет управлять сайтом. Статус, срок поставки и дата прибытия меняются здесь —
-          и на витрине сразу обновляются стикер, счётчик дней и кнопка («Забронировать» или «В наличии»).
-          Заявки с формы брони падают в правый блок: менеджер звонит, получает предоплату и нажимает «Подтвердить бронь» —
-          у товара появляется стикер «Забронировано».
+          Так менеджер будет управлять сайтом. Статус, срок поставки и дата прибытия меняются здесь —
+          и на витрине сразу обновляются стикер, счётчик дней и кнопка. Заявки с формы брони попадают
+          в правый блок: менеджер звонит, получает предоплату и нажимает «Подтвердить бронь» —
+          у позиции появляется стикер «Забронировано».
         </div>
 
         <div class="admin-grid">
           <div class="admin-panel">
-            <h2><span data-i18n="admin.products">Техника</span> <span class="admin-tag" data-i18n="admin.hint.status">статус меняет витрину</span></h2>
+            <h2>
+              <span data-i18n="admin.products">Техника</span>
+              <span class="admin-tag" data-i18n="admin.hint.status">статус меняет витрину</span>
+            </h2>
             <table class="admin-table">
               <thead>
                 <tr>
-                  <th>Позиция</th>
+                  <th data-i18n="admin.col.item">Позиция</th>
                   <th data-i18n="admin.col.status">Статус</th>
                   <th data-i18n="admin.col.term">Срок поставки</th>
                   <th data-i18n="admin.col.arrival">Дата прибытия</th>
@@ -56,44 +57,62 @@
               </thead>
               <tbody id="admin-rows"></tbody>
             </table>
-            <p class="admin-sub" style="margin-top:14px" data-i18n="admin.hint.dates">
-              «Срок поставки» и «дата прибытия» связаны: меняете одно — второе пересчитывается. Если рейс задержался, дату сдвигают вручную.
+            <p class="admin-sub" style="margin-top:20px" data-i18n="admin.hint.dates">
+              «Срок поставки» и «дата прибытия» связаны: меняете одно — второе пересчитывается.
+              Если рейс задержался, дату сдвигают вручную.
             </p>
           </div>
 
           <div class="admin-panel">
-            <h2>Заявки на бронь</h2>
+            <h2 data-i18n="admin.queue">Заявки на бронь</h2>
             <div id="admin-queue"></div>
-            <p class="admin-sub" style="margin-top:14px">
-              В WordPress такая заявка уходит письмом менеджеру на e-mail. Здесь, в демо, она сохраняется в браузере,
-              чтобы можно было показать весь процесс: заявка → звонок → предоплата → стикер «Забронировано».
+            <p class="admin-sub" style="margin-top:20px">
+              В WordPress такая заявка уходит письмом менеджеру на e-mail. Здесь, в демо, она сохраняется
+              в браузере — чтобы можно было показать весь процесс: заявка → звонок → предоплата → стикер «Забронировано».
             </p>
           </div>
         </div>
 
-        <div class="admin-panel" style="margin-top:22px">
+        <div class="admin-panel" style="margin-top:24px">
           <h2>Что будет в админке WordPress</h2>
           <div class="how-steps" style="margin-top:8px">
+
             <div class="how-step">
-              <div class="how-num">📦</div>
+              <div class="how-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg>
+              </div>
+              <span class="how-label">Раздел</span>
               <h3>Техника</h3>
-              <p>Название, марка, модель, серийный номер, контейнер, цена, характеристики, описание на RU и RO, до 15 фото с перетаскиванием порядка, видео.</p>
+              <p>Название, марка, модель, серийный номер, контейнер, цена, характеристики, описание на русском и румынском, до 15 фото с перетаскиванием порядка, видео.</p>
             </div>
+
             <div class="how-step">
-              <div class="how-num">🚚</div>
+              <div class="how-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 17h4V5H2v12h3"/><path d="M20 17h2v-3.34a4 4 0 0 0-1.17-2.83L19 9h-5"/><circle cx="7.5" cy="17.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></svg>
+              </div>
+              <span class="how-label">Раздел</span>
               <h3>Контейнеры</h3>
               <p>Номер контейнера, дата прибытия, примечание. Позиции привязываются к контейнеру — блок «Контейнеры в пути» на сайте обновляется сам.</p>
             </div>
+
             <div class="how-step">
-              <div class="how-num">🔔</div>
+              <div class="how-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>
+              </div>
+              <span class="how-label">Раздел</span>
               <h3>Заявки и брони</h3>
-              <p>ФИО и телефон клиента, письмо менеджеру на e-mail, отметки «подтверждена» и «отказ», автоматический перевод товара в «Забронировано».</p>
+              <p>ФИО и телефон клиента, письмо менеджеру на e-mail, отметки «подтверждена» и «отказ», автоматический перевод позиции в «Забронировано».</p>
             </div>
+
             <div class="how-step">
-              <div class="how-num">👥</div>
+              <div class="how-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              </div>
+              <span class="how-label">Раздел</span>
               <h3>Роли и статистика</h3>
-              <p>Администратор и менеджер (менеджер видит только технику и заявки). Просмотры карточек и конверсия в заявки — видно, что брать в следующий контейнер.</p>
+              <p>Администратор и менеджер: менеджер видит только технику и заявки. Просмотры карточек и конверсия в заявки — видно, что брать в следующий контейнер.</p>
             </div>
+
           </div>
         </div>
 
@@ -107,7 +126,7 @@
       <div class="footer-bottom">
         <p>© 2026 AgroNord. Демо-режим: данные хранятся в браузере, реальные письма не отправляются.</p>
         <div class="footer-bottom-links">
-          <a href="index.html">← вернуться на сайт</a>
+          <a href="index.html">Вернуться на сайт</a>
         </div>
       </div>
     </div>
