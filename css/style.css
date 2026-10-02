@@ -35,8 +35,6 @@
   --st-late-fg: #B91C1C;               --st-late-bg: #FEF2F2;              --st-late-bd: #FECACA;               /* 5.9:1 */
   --st-late-fg-dark: #FCA5A5;                                                                                     /* 9.1:1 на --dark */
   --danger: #DC2626;                                                                                               /* служебный: избранное */
-  --accent-deep: #B45309;              /* заливка акцентной кнопки: 5.0:1 с белым текстом */
-  --accent-deep-hover: #92400E;        /* ховер: 7.1:1 */
 }
 
 /* ---------- Reset & Base ---------- */
@@ -128,14 +126,14 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .btn-accent {
-  background: var(--accent-deep);
-  color: var(--white);
+  background: var(--accent);
+  color: var(--dark);
   font-weight: 700;
 }
 .btn-accent:hover {
-  background: var(--accent-deep-hover);
+  background: var(--accent-dark);
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(180,83,9,.35);
+  box-shadow: 0 4px 12px rgba(245,158,11,.35);
 }
 
 .btn-sm { padding: 10px 20px; font-size: 14px; }

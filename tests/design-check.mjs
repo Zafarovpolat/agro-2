@@ -100,22 +100,22 @@ const legacy = [];
 for (const f of pages) for (const re of oldInline) if (re.test(read(f))) legacy.push(f + ' → ' + re);
 legacy.length ? bad('остались инлайновые приёмы: ' + legacy.join(', ')) : ok('фон секций, скрытые иконки и активная ссылка — классами');
 
-console.log('\n8) Читаемость акцентной кнопки');
+console.log('\n8) Акцентная кнопка');
 const lin = (c) => { c /= 255; return c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4; };
 const lum = (hex) => { const h = hex.replace('#', ''); return 0.2126 * lin(parseInt(h.slice(0, 2), 16)) + 0.7152 * lin(parseInt(h.slice(2, 4), 16)) + 0.0722 * lin(parseInt(h.slice(4, 6), 16)); };
-const contrast = (a, b) => { const l1 = lum(a), l2 = lum(b); return ((Math.max(l1, l2) + 0.05) / (Math.min(l1, l2) + 0.05)); };
+const contrast = (a, b) => { const l1 = lum(a), l2 = lum(b); return (Math.max(l1, l2) + 0.05) / (Math.min(l1, l2) + 0.05); };
 const token = (name) => (css.match(new RegExp(name + '\\s*:\\s*(#[0-9A-Fa-f]{6})')) || [])[1];
 const accentBtn = (css.match(/\.btn-accent\s*\{([^}]*)\}/) || [])[1] || '';
-const accentBg = token('--accent-deep'), accentHover = token('--accent-deep-hover');
-if (/color:\s*var\(--white\)/.test(accentBtn)) ok('.btn-accent — белый текст'); else bad('.btn-accent: текст не белый');
-for (const [name, hex] of [['--accent-deep', accentBg], ['--accent-deep-hover', accentHover]]) {
-  if (!hex) { bad('не найден токен ' + name); continue; }
-  const c = contrast('#FFFFFF', hex);
-  c >= 4.5 ? ok(name + ' ' + hex + ': белый текст ' + c.toFixed(2) + ':1')
-           : bad(name + ' ' + hex + ': контраст с белым ' + c.toFixed(2) + ':1 (< 4.5)');
-}
-const primaryC = contrast('#FFFFFF', token('--primary') || '#FFFFFF');
-console.log('  INFO  белый на --primary (' + (token('--primary') || '?') + '): ' + primaryC.toFixed(2) + ':1 — базовые зелёные кнопки, вне этой правки');
+const accent = token('--accent') || '#F59E0B';
+const dark = token('--dark') || '#111827';
+if (/background:\s*var\(--accent\)/.test(accentBtn)) ok('.btn-accent — исходный янтарь --accent');
+else bad('.btn-accent: заливка не var(--accent)');
+if (/color:\s*var\(--dark\)/.test(accentBtn)) ok('.btn-accent — тёмный текст, как в базовой вёрстке');
+else bad('.btn-accent: текст не var(--dark)');
+const c = contrast(dark, accent);
+c >= 4.5 ? ok('читаемость: тёмный текст на --accent ' + c.toFixed(2) + ':1')
+         : bad('читаемость: ' + c.toFixed(2) + ':1 (< 4.5)');
+console.log('  INFO  белый текст на --accent дал бы ' + contrast('#FFFFFF', accent).toFixed(2) + ':1 — поэтому текст тёмный');
 
 console.log('\n' + (fail ? 'ИТОГ: проверка дизайн-системы НЕ пройдена (' + fail + ' замечаний)' : 'ИТОГ: проверка дизайн-системы пройдена'));
 process.exit(fail ? 1 : 0);
