@@ -281,6 +281,37 @@
     </section>
 
     <!-- ===== Stats ===== -->
+    <!-- Containers -->
+    <section class="section" style="background:var(--white);">
+      <div class="container">
+        <div class="section-header fade-up">
+          <div>
+            <h2 data-i18n="cont.title">Контейнеры в пути</h2>
+            <p data-i18n="cont.sub">Нажмите на контейнер, чтобы посмотреть, что в нём едет.</p>
+          </div>
+        </div>
+        <div class="cont-strip" id="containers-strip"></div>
+      </div>
+    </section>
+
+    <!-- How to buy -->
+    <section class="section" style="background:var(--bg);">
+      <div class="container">
+        <div class="section-header fade-up">
+          <div>
+            <h2 data-i18n="how.title">Как купить</h2>
+            <p data-i18n="how.subtitle">От выбора техники — до выдачи на складе в Бельцах.</p>
+          </div>
+        </div>
+        <div class="how-steps">
+          <div class="how-step fade-up"><div class="how-num">1</div><h3 data-i18n="how.1.t">Выбираете</h3><p data-i18n="how.1.d"></p></div>
+          <div class="how-step fade-up delay-1"><div class="how-num">2</div><h3 data-i18n="how.2.t">Бронируете</h3><p data-i18n="how.2.d"></p></div>
+          <div class="how-step fade-up delay-2"><div class="how-num">3</div><h3 data-i18n="how.3.t">Вносите предоплату</h3><p data-i18n="how.3.d"></p></div>
+          <div class="how-step fade-up delay-3"><div class="how-num">4</div><h3 data-i18n="how.4.t">Забираете</h3><p data-i18n="how.4.d"></p></div>
+        </div>
+      </div>
+    </section>
+
     <section class="stats">
       <div class="container">
         <div class="stats-grid">
@@ -422,6 +453,7 @@
       </div>
       <div class="footer-bottom">
         <p data-i18n="footer.copy">&copy; 2026 AgroNord. Все права защищены.</p>
+        <p class="footer-updated"><span data-i18n="catalog.updated">Каталог обновлён</span>: <b data-updated>—</b></p>
         <div class="footer-bottom-links">
           <a href="#" data-i18n="footer.privacy">Политика конфиденциальности</a>
           <a href="#" data-i18n="footer.terms">Публичная оферта</a>
@@ -432,5 +464,7 @@
 
   <script src="js/i18n.js"></script>
   <script src="js/main.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/shop.js"></script>
 </body>
 </html>

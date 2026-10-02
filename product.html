@@ -58,62 +58,14 @@
           <span class="sep">/</span>
           <a href="catalog.html" data-i18n="bc.catalog">Каталог</a>
           <span class="sep">/</span>
-          <span class="current" data-i18n="prod.jd8r">Трактор John Deere 8R</span>
+          <span class="current" id="bc-product">Трактор John Deere 8R</span>
         </div>
       </div>
     </div>
 
     <!-- Product Detail -->
     <section class="product-detail">
-      <div class="container">
-        <div class="product-detail-grid">
-          <!-- Gallery -->
-          <div class="fade-up">
-            <div class="product-gallery">
-              <img class="product-gallery-main" src="img/tractor-john-deere-8r.jpg" alt="Трактор John Deere 8R" />
-            </div>
-            <div class="product-gallery-thumbs">
-              <div class="product-gallery-thumb active">
-                <img src="img/tractor-john-deere-8r.jpg" alt="Вид 1" />
-              </div>
-              <div class="product-gallery-thumb">
-                <img src="img/tractor-case-ih-magnum.jpg" alt="Вид 2" />
-              </div>
-              <div class="product-gallery-thumb">
-                <img src="img/tractor-new-holland-t7.jpg" alt="Вид 3" />
-              </div>
-            </div>
-          </div>
-
-          <!-- Info -->
-          <div class="product-info fade-up delay-1">
-            <div class="product-category" data-i18n="product.category.tractors">Тракторы</div>
-            <h1 data-i18n="prod.jd8r">Трактор John Deere 8R</h1>
-            <div class="product-price" data-i18n="product.price.request">Цена по запросу</div>
-            <div class="product-description">
-              <p data-i18n="product.jd8r.desc1">Трактор John Deere серии 8R — это максимальная мощность и эффективность для крупных хозяйств. Благодаря инновационным технологиям, мощному двигателю и интеллектуальным системам управления, этот трактор обеспечивает высочайшую производительность в любых условиях.</p>
-              <p style="margin-top:12px;" data-i18n="product.jd8r.desc2">Оснащён системой точного земледелия, автопилотом и комфортабельной кабиной для продолжительной работы.</p>
-            </div>
-
-            <div class="product-specs">
-              <h3 data-i18n="product.specs">Характеристики</h3>
-              <table>
-                <tr><td data-i18n="product.spec.power">Мощность двигателя</td><td>245–410 л.с.</td></tr>
-                <tr><td data-i18n="product.spec.engine">Тип двигателя</td><td>John Deere PowerTech PSS 9.0L</td></tr>
-                <tr><td data-i18n="product.spec.transmission">Трансмиссия</td><td>e23 PowerShift или IVT</td></tr>
-                <tr><td data-i18n="product.spec.hydraulics">Гидравлическая система</td><td>До 321 л/мин</td></tr>
-                <tr><td data-i18n="product.spec.weight">Масса</td><td>11 500 – 15 600 кг</td></tr>
-                <tr><td data-i18n="product.spec.wheelbase">Колёсная база</td><td>3 050 мм</td></tr>
-              </table>
-            </div>
-
-            <div class="product-actions">
-              <a href="contacts.html" class="btn btn-primary btn-lg" data-i18n="product.btn.inquiry">Запросить цену</a>
-              <a href="tel:+37360123456" class="btn btn-secondary btn-lg" data-i18n="product.btn.callback">Позвонить</a>
-            </div>
-          </div>
-        </div>
-      </div>
+      <div class="container" id="product-detail"></div>
     </section>
 
     <!-- Related Products -->
@@ -129,42 +81,7 @@
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
           </a>
         </div>
-        <div class="products-grid">
-          <a href="product.html?id=12" class="product-card fade-up">
-            <div class="product-card-image">
-              <img src="img/tractor-case-ih-magnum.jpg" alt="Трактор Case IH Magnum" />
-              <div class="product-card-overlay"><span class="btn btn-sm" style="background:var(--white);color:var(--dark);" data-i18n="btn.details">Подробнее</span></div>
-            </div>
-            <h3 data-i18n="prod.case">Трактор Case IH Magnum</h3>
-            <div class="product-card-price" data-i18n="prod.price.request">По запросу</div>
-          </a>
-          <a href="product.html?id=13" class="product-card fade-up delay-1">
-            <div class="product-card-image">
-              <img src="img/tractor-new-holland-t7.jpg" alt="Трактор New Holland T7" />
-              <div class="product-card-overlay"><span class="btn btn-sm" style="background:var(--white);color:var(--dark);" data-i18n="btn.details">Подробнее</span></div>
-            </div>
-            <h3 data-i18n="prod.nh">Трактор New Holland T7</h3>
-            <div class="product-card-price" data-i18n="prod.price.request">По запросу</div>
-          </a>
-          <a href="product.html?id=2" class="product-card fade-up delay-2">
-            <div class="product-card-image">
-              <img src="img/combine-claas-lexion.jpg" alt="Комбайн CLAAS LEXION" />
-              <div class="product-card-overlay"><span class="btn btn-sm" style="background:var(--white);color:var(--dark);" data-i18n="btn.details">Подробнее</span></div>
-            </div>
-            <h3 data-i18n="feat.claas.title">Комбайн CLAAS LEXION</h3>
-            <div class="product-card-price" data-i18n="prod.price.request">По запросу</div>
-          </a>
-          <a href="product.html?id=3" class="product-card fade-up delay-3">
-            <div class="product-card-image">
-              <img src="img/seeder-horsch.jpg" alt="Сеялка HORSCH Maestro" />
-              <div class="product-card-overlay"><span class="btn btn-sm" style="background:var(--white);color:var(--dark);" data-i18n="btn.details">Подробнее</span></div>
-            </div>
-            <h3 data-i18n="prod.seeder.horsch">Сеялка HORSCH Maestro</h3>
-            <div class="product-card-price" data-i18n="prod.price.request">По запросу</div>
-          </a>
-        </div>
-      </div>
-    </section>
+        <div class="products-grid" id="related-grid"></div>
   </main>
 
   <!-- Footer -->
@@ -213,6 +130,7 @@
       </div>
       <div class="footer-bottom">
         <p data-i18n="footer.copy">&copy; 2026 AgroNord. Все права защищены.</p>
+        <p class="footer-updated"><span data-i18n="catalog.updated">Каталог обновлён</span>: <b data-updated>—</b></p>
         <div class="footer-bottom-links">
           <a href="#" data-i18n="footer.privacy">Политика конфиденциальности</a>
           <a href="#" data-i18n="footer.terms">Публичная оферта</a>
@@ -223,5 +141,7 @@
 
   <script src="js/i18n.js"></script>
   <script src="js/main.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/shop.js"></script>
 </body>
 </html>

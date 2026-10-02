@@ -195,6 +195,104 @@ const translations = {
   "contacts.form.message": { ru: "Сообщение", ro: "Mesaj" },
   "contacts.form.submit": { ru: "Отправить", ro: "Trimite" },
 
+  /* ============================================================
+     ДОРАБОТКА ПО ЗАПРОСУ КЛИЕНТА: статусы, счётчик поставки, бронь
+     ============================================================ */
+
+  /* ---- Статусы товара ---- */
+  "status.stock":    { ru: "В наличии", ro: "Disponibil" },
+  "status.transit":  { ru: "В дороге", ro: "Pe drum" },
+  "status.reserved": { ru: "Забронировано", ro: "Rezervat" },
+  "status.sold":     { ru: "Продан", ro: "Vândut" },
+
+  /* ---- Счётчик поставки ---- */
+  "cnt.left":      { ru: "До прибытия", ro: "Până la sosire" },
+  "cnt.expected":  { ru: "поставка ожидается", ro: "sosire estimată" },
+  "cnt.soon":      { ru: "Ожидается со дня на день", ro: "Se așteaptă în orice zi" },
+  "cnt.late":      { ru: "Рейс задерживается", ro: "Transportul întârzie" },
+  "cnt.late.sub":  { ru: "точную дату подтверждает менеджер", ro: "data exactă o confirmă managerul" },
+  "cnt.calc":      { ru: "расчётная дата", ro: "data estimată" },
+  "cnt.arrived":   { ru: "В Молдове с", ro: "În Moldova din" },
+  "cnt.instock":   { ru: "В наличии на складе", ro: "Disponibil în depozit" },
+  "cnt.resdays":   { ru: "Забронировано, до прибытия", ro: "Rezervat, până la sosire" },
+  "cnt.container": { ru: "Контейнер", ro: "Container" },
+  "cnt.reserved.note":  { ru: "Забронирован: внесена предоплата.", ro: "Rezervat: avans achitat." },
+  "cnt.reserved.other": { ru: "Забронирован другим клиентом. Оставьте заявку — сообщим, если позиция освободится.", ro: "Rezervat de alt client. Lăsați o cerere — vă anunțăm dacă poziția se eliberează." },
+
+  /* ---- Кнопки ---- */
+  "btn.reserve": { ru: "Забронировать", ro: "Rezervă" },
+  "btn.similar": { ru: "Смотреть похожие", ro: "Vezi similare" },
+
+  /* ---- Каталог: фильтры ---- */
+  "catalog.shown":   { ru: "показано", ro: "afișate" },
+  "catalog.of":      { ru: "из", ro: "din" },
+  "catalog.reset":   { ru: "сбросить", ro: "resetare" },
+  "catalog.nothing": { ru: "Ничего не найдено — измените фильтры.", ro: "Nimic găsit — modificați filtrele." },
+  "catalog.search":  { ru: "Поиск: марка, модель или серия...", ro: "Căutare: marcă, model sau serie..." },
+  "catalog.free":    { ru: "Только свободные", ro: "Doar cele libere" },
+  "catalog.sort":    { ru: "Сортировка", ro: "Sortare" },
+  "catalog.sort.arrival": { ru: "по дате прибытия", ro: "după data sosirii" },
+  "catalog.sort.new":     { ru: "сначала новые поступления", ro: "întâi cele noi" },
+  "catalog.sort.name":    { ru: "по названию", ro: "după denumire" },
+  "catalog.updated":      { ru: "Каталог обновлён", ro: "Catalog actualizat" },
+
+  /* ---- Контейнеры ---- */
+  "cont.title":  { ru: "Контейнеры в пути", ro: "Containere pe drum" },
+  "cont.sub":    { ru: "Нажмите на контейнер, чтобы посмотреть, что в нём едет.", ro: "Apăsați pe container pentru a vedea ce sosește în el." },
+  "cont.units":  { ru: "позиций", ro: "poziții" },
+  "cont.arrive": { ru: "прибытие", ro: "sosire" },
+  "cont.free":   { ru: "свободны для брони", ro: "libere pentru rezervare" },
+
+  /* ---- Блок «Как купить» ---- */
+  "how.title":   { ru: "Как купить", ro: "Cum cumperi" },
+  "how.subtitle":{ ru: "От выбора техники — до выдачи на складе в Бельцах.", ro: "De la alegerea utilajului — până la predarea în depozitul din Bălți." },
+  "how.1.t":     { ru: "Выбираете", ro: "Alegeți" },
+  "how.1.d":     { ru: "Фильтруете по категории, статусу и дате прибытия или ищете по серийному номеру.", ro: "Filtrați după categorie, statut și data sosirii sau căutați după seria utilajului." },
+  "how.2.t":     { ru: "Бронируете", ro: "Rezervați" },
+  "how.2.d":     { ru: "Оставляете имя, фамилию и телефон — менеджер звонит и подтверждает наличие.", ro: "Lăsați nume, prenume și telefon — managerul sună și confirmă disponibilitatea." },
+  "how.3.t":     { ru: "Вносите предоплату", ro: "Achitați avansul" },
+  "how.3.d":     { ru: "После предоплаты позиция помечается «Забронировано», и её больше никто не купит.", ro: "După avans poziția devine „Rezervat” și nimeni nu o mai poate cumpăra." },
+  "how.4.t":     { ru: "Забираете", ro: "Ridicați" },
+  "how.4.d":     { ru: "Когда техника приходит в Молдову, менеджер сообщает дату выдачи. Доставку организуем.", ro: "Când utilajul ajunge în Moldova, managerul anunță data predării. Livrarea o organizăm noi." },
+
+  /* ---- Страница товара ---- */
+  "p.serial":    { ru: "Серия", ro: "Serie" },
+  "p.container": { ru: "Контейнер / склад", ro: "Container / depozit" },
+  "p.warehouse": { ru: "склад в Бельцах", ro: "depozitul din Bălți" },
+  "p.call":      { ru: "Позвонить", ro: "Sunați" },
+  "product.notfound": { ru: "Позиция не найдена — возможно, она уже продана.", ro: "Poziția nu a fost găsită — poate a fost vândută." },
+  "product.back":     { ru: "В каталог", ro: "La catalog" },
+  "disc.1":      { ru: "Скидка 400 €, если берёте технику как из контейнера, без предпродажной подготовки.", ro: "Reducere 400 € dacă luați utilajul ca din container, fără pregătire înainte de vânzare." },
+  "disc.2":      { ru: "Скидка 200 € при предоплате от 40 % не позднее чем за две недели до прибытия.", ro: "Reducere 200 € la avans de la 40 % cu cel puțin două săptămâni înainte de sosire." },
+
+  /* ---- Форма бронирования ---- */
+  "form.name":     { ru: "Имя", ro: "Nume" },
+  "form.surname":  { ru: "Фамилия", ro: "Prenume" },
+  "form.phone":    { ru: "Телефон", ro: "Telefon" },
+  "form.comment":  { ru: "Комментарий", ro: "Comentariu" },
+  "form.consent":  { ru: "Согласен на обработку персональных данных для связи по заявке.", ro: "Sunt de acord cu prelucrarea datelor pentru a fi contactat." },
+  "form.note":     { ru: "Менеджер позвонит, подтвердит наличие и расскажет про предоплату.", ro: "Managerul va suna, va confirma disponibilitatea și va explica despre avans." },
+  "form.ok.title": { ru: "Заявка принята!", ro: "Cererea a fost primită!" },
+  "form.ok.text":  { ru: "Менеджер свяжется с вами в ближайшее время. Заявка уже видна в админке.", ro: "Managerul vă va contacta în curând. Cererea este deja vizibilă în admin." },
+  "form.close":    { ru: "Закрыть", ro: "Închide" },
+
+  "admin.col.status":  { ru: "Статус", ro: "Statut" },
+  "admin.col.term":    { ru: "Срок поставки", ro: "Termen de livrare" },
+  "admin.col.arrival": { ru: "Дата прибытия", ro: "Data sosirii" },
+  /* ---- Демо-админка ---- */
+  "admin.title":        { ru: "Демо-админка", ro: "Demo admin" },
+  "admin.products":     { ru: "Техника", ro: "Utilaje" },
+  "admin.in.country":   { ru: "уже в Молдове", ro: "deja în Moldova" },
+  "admin.no.bookings":  { ru: "Заявок пока нет. Оформите бронь на сайте — она появится здесь.", ro: "Nu sunt cereri. Faceți o rezervare pe site — va apărea aici." },
+  "admin.confirm":      { ru: "Подтвердить бронь", ro: "Confirmă rezervarea" },
+  "admin.reject":       { ru: "Отказ", ro: "Refuz" },
+  "admin.confirmed":    { ru: "подтверждена, ждёт предоплату", ro: "confirmată, așteaptă avansul" },
+  "admin.rejected":     { ru: "отказ", ro: "refuzată" },
+  "admin.mail.hint":    { ru: "в WordPress письмо уходит менеджеру автоматически", ro: "în WordPress scrisoarea ajunge automat la manager" },
+  "admin.reset":        { ru: "Сбросить демо-данные", ro: "Resetați datele demo" },
+  "admin.hint.status":  { ru: "Статус из этого списка сразу меняет стикер и кнопку на витрине.", ro: "Statutul din această listă schimbă imediat eticheta și butonul pe site." },
+  "admin.hint.dates":   { ru: "«Срок поставки» и «дата прибытия» связаны: меняете одно — второе пересчитывается. Если рейс задержался, дату сдвигают вручную.", ro: "„Termenul de livrare” și „data sosirii” sunt legate: modificați unul — celălalt se recalculează. Dacă transportul întârzie, data se schimbă manual." },
+
   /* ---- Menu label ---- */
   "menu.label": { ru: "Меню", ro: "Meniu" },
 };
@@ -212,6 +310,9 @@ function setLang(lang) {
 }
 
 function applyLang(lang) {
+  // если язык не передан — берём сохранённый, чтобы случайный вызов
+  // без аргумента не сбрасывал интерфейс на русский
+  if (!lang) lang = getLang();
   document.querySelectorAll('[data-i18n]').forEach(el => {
     const key = el.getAttribute('data-i18n');
     const t = translations[key];

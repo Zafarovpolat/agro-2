@@ -87,148 +87,32 @@
           <button class="filter-btn" data-filter="seeders" data-i18n="filter.seeders">Сеялки</button>
           <button class="filter-btn" data-filter="trailers" data-i18n="filter.trailers">Прицепы</button>
           <button class="filter-btn" data-filter="parts" data-i18n="filter.parts">Запчасти</button>
+
+          <div class="shop-controls">
+            <input class="shop-input" id="shop-search" type="search" data-i18n="catalog.search" placeholder="Поиск: марка, модель или серия..." />
+            <select class="shop-select" id="shop-status" aria-label="Статус">
+              <option value="all" data-i18n="filter.all">Все</option>
+              <option value="stock" data-i18n="status.stock">В наличии</option>
+              <option value="transit" data-i18n="status.transit">В дороге</option>
+              <option value="reserved" data-i18n="status.reserved">Забронировано</option>
+            </select>
+            <select class="shop-select" id="shop-sort" aria-label="Сортировка">
+              <option value="arrival" data-i18n="catalog.sort.arrival">по дате прибытия</option>
+              <option value="new" data-i18n="catalog.sort.new">сначала новые поступления</option>
+              <option value="name" data-i18n="catalog.sort.name">по названию</option>
+            </select>
+            <label class="shop-check"><input type="checkbox" id="shop-free" /> <span data-i18n="catalog.free">Только свободные</span></label>
+            <button type="button" class="btn btn-secondary btn-sm" id="shop-reset" data-i18n="catalog.reset">сбросить</button>
+          </div>
         </div>
 
-        <!-- Products grid -->
-        <div class="products-grid">
-          <!-- Tractors -->
-          <a href="product.html?id=1" class="product-card fade-up" data-category="tractors" style="transition:opacity .3s, transform .3s;">
-            <div class="product-card-image">
-              <img src="img/tractor-john-deere-8r.jpg" alt="Трактор John Deere 8R" />
-              <button class="product-card-fav" onclick="event.preventDefault();"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg></button>
-              <div class="product-card-overlay"><span class="btn btn-sm" style="background:var(--white);color:var(--dark);" data-i18n="btn.details">Подробнее</span></div>
-            </div>
-            <h3 data-i18n="prod.jd8r">Трактор John Deere 8R</h3>
-            <div class="product-card-price" data-i18n="prod.price.request">По запросу</div>
-          </a>
-
-          <a href="product.html?id=12" class="product-card fade-up delay-1" data-category="tractors" style="transition:opacity .3s, transform .3s;">
-            <div class="product-card-image">
-              <img src="img/tractor-case-ih-magnum.jpg" alt="Трактор Case IH Magnum" />
-              <button class="product-card-fav" onclick="event.preventDefault();"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg></button>
-              <div class="product-card-overlay"><span class="btn btn-sm" style="background:var(--white);color:var(--dark);" data-i18n="btn.details">Подробнее</span></div>
-            </div>
-            <h3 data-i18n="prod.case">Трактор Case IH Magnum</h3>
-            <div class="product-card-price" data-i18n="prod.price.request">По запросу</div>
-          </a>
-
-          <a href="product.html?id=13" class="product-card fade-up delay-2" data-category="tractors" style="transition:opacity .3s, transform .3s;">
-            <div class="product-card-image">
-              <img src="img/tractor-new-holland-t7.jpg" alt="Трактор New Holland T7" />
-              <button class="product-card-fav" onclick="event.preventDefault();"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg></button>
-              <div class="product-card-overlay"><span class="btn btn-sm" style="background:var(--white);color:var(--dark);" data-i18n="btn.details">Подробнее</span></div>
-            </div>
-            <h3 data-i18n="prod.nh">Трактор New Holland T7</h3>
-            <div class="product-card-price" data-i18n="prod.price.request">По запросу</div>
-          </a>
-
-          <!-- Combines -->
-          <a href="product.html?id=2" class="product-card fade-up delay-3" data-category="combines" style="transition:opacity .3s, transform .3s;">
-            <div class="product-card-image">
-              <img src="img/combine-claas-lexion.jpg" alt="Комбайн CLAAS LEXION" />
-              <button class="product-card-fav" onclick="event.preventDefault();"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg></button>
-              <div class="product-card-overlay"><span class="btn btn-sm" style="background:var(--white);color:var(--dark);" data-i18n="btn.details">Подробнее</span></div>
-            </div>
-            <h3>Комбайн CLAAS LEXION</h3>
-            <div class="product-card-price" data-i18n="prod.price.request">По запросу</div>
-          </a>
-
-          <a href="product.html?id=14" class="product-card fade-up" data-category="combines" style="transition:opacity .3s, transform .3s;">
-            <div class="product-card-image">
-              <img src="img/combine-john-deere.jpg" alt="Комбайн John Deere S780" />
-              <button class="product-card-fav" onclick="event.preventDefault();"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg></button>
-              <div class="product-card-overlay"><span class="btn btn-sm" style="background:var(--white);color:var(--dark);" data-i18n="btn.details">Подробнее</span></div>
-            </div>
-            <h3>Комбайн John Deere S780</h3>
-            <div class="product-card-price" data-i18n="prod.price.request">По запросу</div>
-          </a>
-
-          <!-- Plows -->
-          <a href="product.html?id=4" class="product-card fade-up delay-1" data-category="plows" style="transition:opacity .3s, transform .3s;">
-            <div class="product-card-image">
-              <img src="img/plow.jpg" alt="Плуг оборотный 5-корпусный" />
-              <button class="product-card-fav" onclick="event.preventDefault();"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg></button>
-              <div class="product-card-overlay"><span class="btn btn-sm" style="background:var(--white);color:var(--dark);" data-i18n="btn.details">Подробнее</span></div>
-            </div>
-            <h3 data-i18n="prod.plow">Плуг оборотный 5-корпусный</h3>
-            <div class="product-card-price" data-i18n="prod.price.request">По запросу</div>
-          </a>
-
-          <a href="product.html?id=5" class="product-card fade-up delay-2" data-category="plows" style="transition:opacity .3s, transform .3s;">
-            <div class="product-card-image">
-              <img src="img/cultivator.jpg" alt="Культиватор стерневой" />
-              <button class="product-card-fav" onclick="event.preventDefault();"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg></button>
-              <div class="product-card-overlay"><span class="btn btn-sm" style="background:var(--white);color:var(--dark);" data-i18n="btn.details">Подробнее</span></div>
-            </div>
-            <h3>Культиватор стерневой</h3>
-            <div class="product-card-price" data-i18n="prod.price.request">По запросу</div>
-          </a>
-
-          <a href="product.html?id=10" class="product-card fade-up delay-3" data-category="plows" style="transition:opacity .3s, transform .3s;">
-            <div class="product-card-image">
-              <img src="img/disc-harrow.jpg" alt="Борона дисковая" />
-              <button class="product-card-fav" onclick="event.preventDefault();"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg></button>
-              <div class="product-card-overlay"><span class="btn btn-sm" style="background:var(--white);color:var(--dark);" data-i18n="btn.details">Подробнее</span></div>
-            </div>
-            <h3>Борона дисковая</h3>
-            <div class="product-card-price" data-i18n="prod.price.request">По запросу</div>
-          </a>
-
-          <!-- Seeders -->
-          <a href="product.html?id=3" class="product-card fade-up" data-category="seeders" style="transition:opacity .3s, transform .3s;">
-            <div class="product-card-image">
-              <img src="img/seeder-horsch.jpg" alt="Сеялка HORSCH Maestro" />
-              <button class="product-card-fav" onclick="event.preventDefault();"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg></button>
-              <div class="product-card-overlay"><span class="btn btn-sm" style="background:var(--white);color:var(--dark);" data-i18n="btn.details">Подробнее</span></div>
-            </div>
-            <h3 data-i18n="prod.seeder.horsch">Сеялка HORSCH Maestro</h3>
-            <div class="product-card-price" data-i18n="prod.price.request">По запросу</div>
-          </a>
-
-          <a href="product.html?id=6" class="product-card fade-up delay-1" data-category="seeders" style="transition:opacity .3s, transform .3s;">
-            <div class="product-card-image">
-              <img src="img/sprayer.jpg" alt="Опрыскиватель прицепной" />
-              <button class="product-card-fav" onclick="event.preventDefault();"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg></button>
-              <div class="product-card-overlay"><span class="btn btn-sm" style="background:var(--white);color:var(--dark);" data-i18n="btn.details">Подробнее</span></div>
-            </div>
-            <h3>Опрыскиватель прицепной</h3>
-            <div class="product-card-price" data-i18n="prod.price.request">По запросу</div>
-          </a>
-
-          <!-- Trailers -->
-          <a href="product.html?id=15" class="product-card fade-up delay-2" data-category="trailers" style="transition:opacity .3s, transform .3s;">
-            <div class="product-card-image">
-              <img src="img/trailer.jpg" alt="Прицеп тракторный бортовой" />
-              <button class="product-card-fav" onclick="event.preventDefault();"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg></button>
-              <div class="product-card-overlay"><span class="btn btn-sm" style="background:var(--white);color:var(--dark);" data-i18n="btn.details">Подробнее</span></div>
-            </div>
-            <h3>Прицеп тракторный бортовой</h3>
-            <div class="product-card-price" data-i18n="prod.price.request">По запросу</div>
-          </a>
-
-          <a href="product.html?id=7" class="product-card fade-up delay-3" data-category="trailers" style="transition:opacity .3s, transform .3s;">
-            <div class="product-card-image">
-              <img src="img/spreader.jpg" alt="Разбрасыватель удобрений" />
-              <button class="product-card-fav" onclick="event.preventDefault();"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg></button>
-              <div class="product-card-overlay"><span class="btn btn-sm" style="background:var(--white);color:var(--dark);" data-i18n="btn.details">Подробнее</span></div>
-            </div>
-            <h3>Разбрасыватель удобрений</h3>
-            <div class="product-card-price" data-i18n="prod.price.request">По запросу</div>
-          </a>
-
-          <!-- Parts -->
-          <a href="product.html?id=16" class="product-card fade-up" data-category="parts" style="transition:opacity .3s, transform .3s;">
-            <div class="product-card-image">
-              <img src="img/spare-parts.jpg" alt="Фильтры масляные" />
-              <button class="product-card-fav" onclick="event.preventDefault();"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg></button>
-              <div class="product-card-overlay"><span class="btn btn-sm" style="background:var(--white);color:var(--dark);" data-i18n="btn.details">Подробнее</span></div>
-            </div>
-            <h3>Фильтры масляные</h3>
-            <div class="product-card-price" data-i18n="prod.price.request">По запросу</div>
-          </a>
+        <div class="catalog-toolbar">
+          <span class="shop-count" id="shop-count"></span>
+          <span id="cont-note"></span>
         </div>
-      </div>
-    </section>
+
+        <div class="products-grid" id="products-grid"></div>
+
 
     <!-- CTA -->
     <section class="cta">
@@ -296,6 +180,7 @@
       </div>
       <div class="footer-bottom">
         <p data-i18n="footer.copy">&copy; 2026 AgroNord. Все права защищены.</p>
+        <p class="footer-updated"><span data-i18n="catalog.updated">Каталог обновлён</span>: <b data-updated>—</b></p>
         <div class="footer-bottom-links">
           <a href="#" data-i18n="footer.privacy">Политика конфиденциальности</a>
           <a href="#" data-i18n="footer.terms">Публичная оферта</a>
@@ -306,6 +191,8 @@
 
   <script src="js/i18n.js"></script>
   <script src="js/main.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/shop.js"></script>
   <script>
     // Activate filter from URL query parameter
     (function() {
