@@ -7,6 +7,10 @@
    • фильтры: поиск по серии, «только свободные», сортировка
    Логика использует существующий движок i18n (js/i18n.js),
    поэтому все подписи автоматически работают на RU и RO.
+
+   Оформление (см. блок «ДОРАБОТКА» в конце css/style.css):
+   иконки — инлайновые SVG в стиле остальных страниц, цвета —
+   только из переменных дизайн-системы, эмодзи не используются.
    ============================================================ */
 (function () {
   const DAY = 86400000;
@@ -30,6 +34,32 @@
     if (typeof applyLang === 'function') applyLang(typeof getLang === 'function' ? getLang() : 'ru');
   };
 
+  /* ---------- экранирование ----------
+     Данные из формы брони (имя, телефон, комментарий) приходят от
+     посетителя и выводятся в админке: без экранирования это хранимая
+     XSS в браузере менеджера. Экранируем всё, что попадает в innerHTML. */
+  const esc = (v) => String(v == null ? '' : v)
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+
+  /* ---------- иконки (24×24, stroke=currentColor) ---------- */
+  const ICONS = {
+    truck: '<path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.62l-3.48-4.35A1 1 0 0 0 17.52 8H14"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/>',
+    clock: '<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>',
+    alert: '<path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/>',
+    checkCircle: '<circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/>',
+    check: '<path d="M20 6 9 17l-5-5"/>',
+    lock: '<rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>',
+    x: '<path d="M18 6 6 18"/><path d="m6 6 12 12"/>',
+    phone: '<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>',
+    chat: '<path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/>',
+    percent: '<path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"/><path d="m15 9-6 6"/><path d="M9 9h.01"/><path d="M15 15h.01"/>',
+    mail: '<rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>'
+  };
+  const ico = (name, cls) => `<svg class="${cls || 'ico'}" xmlns="http://www.w3.org/2000/svg" width="16" height="16"` +
+    ` viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"` +
+    ` stroke-linejoin="round" aria-hidden="true">${ICONS[name] || ''}</svg>`;
+
   /* ---------- работа с датами ---------- */
   const parse = (iso) => new Date(iso + 'T00:00:00');
   const fmt = (iso) => parse(iso).toLocaleDateString(lang() === 'ro' ? 'ro-RO' : 'ru-RU', { day: '2-digit', month: '2-digit', year: 'numeric' });
@@ -45,6 +75,7 @@
     if (lang() === 'ro') return n === 1 ? 'zi' : 'zile';
     return plural(n, 'день', 'дня', 'дней');
   };
+  const daysLabel = (n) => `${n} ${dayWord(n)}`;
 
   /* ---------- правки, которые делает менеджер в админке (демо) ---------- */
   function overrides() {
@@ -75,12 +106,7 @@
   }
 
   /* ---------- статусы ---------- */
-  const STATUS = {
-    stock:    { cls: 'st-stock',    color: '#16A34A' },
-    transit:  { cls: 'st-transit',  color: '#F59E0B' },
-    reserved: { cls: 'st-reserved', color: '#B45309' },
-    sold:     { cls: 'st-sold',     color: '#6B7280' }
-  };
+  const STATUS = { stock: 'st-stock', transit: 'st-transit', reserved: 'st-reserved', sold: 'st-sold' };
   const statusLabel = (s) => t('status.' + s, s);
   const isInCountry = (p) => p.container === 'склад' || !!p.arrived || p.status === 'stock';
 
@@ -98,58 +124,77 @@
      2) 0–7 дней: «Ожидается со дня на день»
      3) срок истёк: «Рейс задерживается, дату подтверждает менеджер» (без минусов)
      4) прибыло: «В Молдове с <дата>» — счётчик убирается
-     Считается в браузере от даты прибытия, поэтому не «застывает».     */
+     Считается в браузере от даты прибытия, поэтому не «застывает».
+     Состояние передаётся иконкой и цветом строки, а не цветной заливкой.  */
   function countdownHTML(p, compact) {
     if (p.status === 'sold') return '';
+    const mod = compact ? ' is-compact' : '';
+
     if (isInCountry(p)) {
       const here = p.arrived || (leftDays(p.arrival) <= 0 ? p.arrival : null);
       const label = here ? `${t('cnt.arrived', 'В Молдове с')} ${fmt(here)}` : t('cnt.instock', 'В наличии на складе');
-      return `<div class="count-box is-done${compact ? ' is-compact' : ''}"><span class="count-main">✅ ${label}</span></div>`;
+      return `<div class="count-box is-done${mod}">
+        <span class="count-main">${ico('checkCircle')}<span>${esc(label)}</span></span></div>`;
     }
+
     const left = leftDays(p.arrival);
     const total = Math.max(1, Math.round((parse(p.arrival) - parse(p.start)) / DAY));
-    const passed = Math.min(100, Math.max(3, Math.round(((total - left) / total) * 100)));
+    const passed = Math.min(100, Math.max(4, Math.round(((total - left) / total) * 100)));
     const bar = `<span class="count-bar"><i style="width:${passed}%"></i></span>`;
+    const container = p.container && p.container !== 'склад'
+      ? ' · ' + t('cnt.container', 'Контейнер') + ' ' + esc(p.container)
+      : '';
 
     if (left < 0) {
-      return `<div class="count-box is-late${compact ? ' is-compact' : ''}">
-        <span class="count-main">⚠ ${t('cnt.late', 'Рейс задерживается')}</span>
-        <span class="count-sub">${t('cnt.late.sub', 'точную дату подтверждает менеджер')} · ${t('cnt.calc', 'расчётная дата')} ${fmt(p.arrival)}</span></div>`;
+      return `<div class="count-box is-late${mod}">
+        <span class="count-main">${ico('alert')}<span>${esc(t('cnt.late', 'Рейс задерживается'))}</span></span>
+        <span class="count-sub">${esc(t('cnt.late.sub', 'точную дату подтверждает менеджер'))} · ${esc(t('cnt.calc', 'расчётная дата'))} ${fmt(p.arrival)}</span></div>`;
     }
     if (left <= 7) {
-      return `<div class="count-box is-soon${compact ? ' is-compact' : ''}">
-        <span class="count-main">📦 ${t('cnt.soon', 'Ожидается со дня на день')}</span>
-        <span class="count-sub">${t('cnt.expected', 'поставка ожидается')} ${fmt(p.arrival)}${p.container !== 'склад' ? ' · ' + p.container : ''}</span>${bar}</div>`;
+      return `<div class="count-box is-soon${mod}">
+        <span class="count-main">${ico('clock')}<span>${esc(t('cnt.soon', 'Ожидается со дня на день'))}</span></span>
+        <span class="count-sub">${esc(t('cnt.expected', 'поставка ожидается'))} ${fmt(p.arrival)}${container}</span>${bar}</div>`;
     }
     const head = p.status === 'reserved'
-      ? `🔒 ${t('cnt.resdays', 'Забронировано, до прибытия')} ${left} ${dayWord(left)}`
-      : `🚚 ${t('cnt.left', 'До прибытия')} ${left} ${dayWord(left)}`;
-    return `<div class="count-box${compact ? ' is-compact' : ''}">
-      <span class="count-main">${head}</span>
-      <span class="count-sub">${t('cnt.expected', 'поставка ожидается')} ${fmt(p.arrival)}${p.container !== 'склад' ? ' · ' + t('cnt.container', 'Контейнер') + ' ' + p.container : ''}</span>${bar}</div>`;
+      ? `${esc(t('cnt.resdays', 'Забронировано, до прибытия'))} <b>${esc(daysLabel(left))}</b>`
+      : `${esc(t('cnt.left', 'До прибытия'))} <b>${esc(daysLabel(left))}</b>`;
+    return `<div class="count-box${mod}">
+      <span class="count-main">${ico(p.status === 'reserved' ? 'lock' : 'truck')}<span>${head}</span></span>
+      <span class="count-sub">${esc(t('cnt.expected', 'поставка ожидается'))} ${fmt(p.arrival)}${container}</span>${bar}</div>`;
   }
 
-  /* ---------- карточка товара (разметка совпадает с прежней вёрсткой) ---------- */
+  /* ---------- карточка товара ----------
+     Разметка совпадает с прежней вёрсткой, но карточка — не <a>:
+     клик по всей площади даёт растянутая ссылка .product-card-hit,
+     а кнопки лежат рядом с ней, а не внутри (валидный HTML).          */
   function cardHTML(p, delay) {
     const st = STATUS[p.status];
     const a = actionFor(p);
     const img = (p.images && p.images[0]) || '';
-    return `<a href="product.html?id=${p.id}" class="product-card fade-up${delay ? ' delay-' + delay : ''}" data-category="${p.cat}" data-id="${p.id}">
+    const name = lang() === 'ro' ? p.name_ro : p.name_ru;
+    const note = p.status === 'reserved'
+      ? `<div class="res-note">${ico('lock')}<span>${esc(t('cnt.reserved.note', 'Забронирован: внесена предоплата.'))}</span></div>`
+      : '';
+    const action = a.act === 'similar' ? '' :
+      `<button type="button" class="btn ${a.cls} btn-sm product-card-book" data-act="${a.act}" data-id="${p.id}"${a.disabled ? ' disabled' : ''}>${esc(ctaLabel(p))}</button>`;
+
+    return `<article class="product-card fade-up${delay ? ' delay-' + delay : ''}" data-category="${esc(p.cat)}" data-id="${p.id}" data-status="${esc(p.status)}">
+      <a class="product-card-hit" href="product.html?id=${p.id}" aria-label="${esc(name)}"></a>
       <div class="product-card-image">
-        <img src="${img}" alt="${p.name_ru}" />
-        <span class="st-badge ${st.cls}">${statusLabel(p.status)}</span>
-        ${p.container && p.container !== 'склад' ? `<span class="cont-tag">${t('cnt.container', 'Контейнер')} ${p.container}</span>` : ''}
-        <button class="product-card-fav" onclick="event.preventDefault();" aria-label="В избранное">
+        <img src="${esc(img)}" alt="${esc(name)}" />
+        <span class="st-badge st-badge-float ${st}">${esc(statusLabel(p.status))}</span>
+        ${p.container && p.container !== 'склад' ? `<span class="cont-tag">${esc(t('cnt.container', 'Контейнер'))} ${esc(p.container)}</span>` : ''}
+        <button type="button" class="product-card-fav" aria-label="${esc(t('card.fav', 'В избранное'))}">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
         </button>
-        <div class="product-card-overlay"><span class="btn btn-sm" style="background:var(--white);color:var(--dark);">${t('btn.details', 'Подробнее')}</span></div>
+        <div class="product-card-overlay" aria-hidden="true"><span class="btn btn-sm">${esc(t('btn.details', 'Подробнее'))}</span></div>
       </div>
-      <h3>${lang() === 'ro' ? p.name_ro : p.name_ru}</h3>
-      <div class="product-card-price">${p.price ? p.price.toLocaleString('ru-RU') + ' €' : t('prod.price.request', 'По запросу')}</div>
+      <h3>${esc(name)}</h3>
+      <div class="product-card-price">${p.price ? p.price.toLocaleString('ru-RU') + ' €' : esc(t('prod.price.request', 'По запросу'))}</div>
       ${countdownHTML(p, true)}
-      ${p.status === 'reserved' ? `<div class="res-note">🔒 ${t('cnt.reserved.note', 'Забронирован: внесена предоплата.')}</div>` : ''}
-      ${a.act === 'similar' ? '' : `<button class="btn ${a.cls} btn-sm product-card-book" data-act="${a.act}" data-id="${p.id}" ${a.disabled ? 'disabled' : ''}>${ctaLabel(p)}</button>`}
-    </a>`;
+      ${note}
+      ${action}
+    </article>`;
   }
 
   /* ---------- каталог: фильтры ---------- */
@@ -181,14 +226,14 @@
     const list = visible();
     const total = allProducts().length;
     grid.innerHTML = list.map((p, i) => cardHTML(p, i % 4)).join('') ||
-      `<div class="catalog-empty">${t('catalog.nothing', 'Ничего не найдено — измените фильтры')}</div>`;
+      `<div class="catalog-empty">${esc(t('catalog.nothing', 'Ничего не найдено — измените фильтры'))}</div>`;
 
     const set = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
     set('shop-count', `${t('catalog.shown', 'показано')} ${list.length} ${t('catalog.of', 'из')} ${total}`);
     const note = document.getElementById('cont-note');
     if (note) {
       note.innerHTML = state.cont
-        ? `${t('cnt.container', 'Контейнер')}: <b>${state.cont}</b> <button type="button" class="link-btn" id="cont-reset">${t('catalog.reset', 'сбросить')}</button>`
+        ? `${esc(t('cnt.container', 'Контейнер'))}: <b>${esc(state.cont)}</b> <button type="button" class="link-btn" id="cont-reset">${esc(t('catalog.reset', 'сбросить'))}</button>`
         : '';
       const r = document.getElementById('cont-reset');
       if (r) r.addEventListener('click', () => { state.cont = ''; renderCatalog(); });
@@ -206,36 +251,38 @@
       .map((c) => Object.assign({}, c, { items: list.filter((p) => p.container === c.code) }))
       .filter((c) => c.items.length)
       .sort((a, b) => parse(a.arrival) - parse(b.arrival));
+
     box.innerHTML = items.map((c) => {
       const left = leftDays(c.arrival);
       const free = c.items.filter((p) => p.status !== 'reserved' && p.status !== 'sold').length;
       return `<a class="cont-card" href="catalog.html?cont=${encodeURIComponent(c.code)}">
-        <span class="cont-code">${c.code}</span>
-        <span class="cont-units">${c.items.length} ${t('cont.units', 'позиций')}</span>
-        <span class="cont-date">${left >= 0
-          ? `${t('cont.arrive', 'прибытие')} ${fmt(c.arrival)} · ${left} ${dayWord(left)}`
-          : `${t('cnt.late', 'Рейс задерживается')} · ${fmt(c.arrival)}`}</span>
-        <span class="cont-free">${free} ${t('cont.free', 'свободны для брони')}</span>
-        <span class="cont-note">${lang() === 'ro' ? c.note_ro : c.note_ru}</span>
+        <span class="cont-head">
+          <span class="cont-code">${esc(c.code)}</span>
+          <span class="cont-days${left < 0 ? ' is-late' : ''}">${left >= 0
+            ? esc(daysLabel(left))
+            : esc(t('cnt.late', 'Рейс задерживается'))}</span>
+        </span>
+        <span class="cont-units">${c.items.length} ${esc(t('cont.units', 'позиций'))} · <span class="cont-free">${free} ${esc(t('cont.free', 'свободны для брони'))}</span></span>
+        <span class="cont-date">${esc(t('cont.arrive', 'прибытие'))} ${fmt(c.arrival)}</span>
+        <span class="cont-note">${esc(lang() === 'ro' ? c.note_ro : c.note_ru)}</span>
       </a>`;
     }).join('');
     relang();
   }
 
-  /* ---------- бейджи на карточках главной страницы ---------- */
+  /* ---------- бейджи и счётчики на карточках главной страницы ---------- */
   function enhanceFeatured() {
     document.querySelectorAll('a.featured-card[href*="product.html?id="]').forEach((card) => {
       if (card.querySelector('.st-badge')) return;
       const id = +card.getAttribute('href').split('=')[1];
       const p = allProducts().find((x) => x.id === id);
       if (!p) return;
-      const holder = card.querySelector('.featured-card-content') || card;
       const badge = document.createElement('span');
-      badge.className = 'st-badge st-badge-float ' + STATUS[p.status].cls;
+      badge.className = 'st-badge st-badge-float ' + STATUS[p.status];
       badge.textContent = statusLabel(p.status);
-      const host = card.querySelector('img') ? card : holder;
-      host.style.position = host.style.position || 'relative';
-      host.appendChild(badge);
+      card.appendChild(badge);                        // .featured-card уже position:relative
+
+      const holder = card.querySelector('.featured-card-content') || card;
       const cnt = countdownHTML(p, true);
       if (cnt) holder.insertAdjacentHTML('beforeend', cnt);
     });
@@ -252,55 +299,56 @@
     const rel = document.getElementById('related-grid');
 
     if (!p) {
-      host.innerHTML = `<div class="catalog-empty">${t('product.notfound', 'Позиция не найдена — возможно, она уже продана.')}
-        <a class="btn btn-primary btn-sm" href="catalog.html">${t('product.back', 'В каталог')}</a></div>`;
+      host.innerHTML = `<div class="catalog-empty">${esc(t('product.notfound', 'Позиция не найдена — возможно, она уже продана.'))}
+        <p><a class="btn btn-primary btn-sm" href="catalog.html">${esc(t('product.back', 'В каталог'))}</a></p></div>`;
       if (rel) rel.innerHTML = list.slice(0, 4).map((x, i) => cardHTML(x, i)).join('');
       relang();
       return;
     }
 
-    document.title = `${lang() === 'ro' ? p.name_ro : p.name_ru} — AgroNord`;
+    const name = lang() === 'ro' ? p.name_ro : p.name_ru;
+    document.title = `${name} — AgroNord`;
     const bc = document.getElementById('bc-product');
-    if (bc) bc.textContent = lang() === 'ro' ? p.name_ro : p.name_ru;
+    if (bc) bc.textContent = name;
     const a = actionFor(p);
     const catName = t('filter.' + p.cat, p.cat);
 
     host.innerHTML = `
       <div class="product-detail-grid">
-        <div class="product-gallery">
-          <img class="product-gallery-main" id="g-main" src="${p.images[0]}" alt="${p.name_ru}" />
-          <span class="st-badge st-badge-float ${STATUS[p.status].cls}">${statusLabel(p.status)}</span>
+        <div class="product-gallery fade-up">
+          <img class="product-gallery-main" id="g-main" src="${esc(p.images[0])}" alt="${esc(name)}" />
+          <span class="st-badge st-badge-float ${STATUS[p.status]}">${esc(statusLabel(p.status))}</span>
         </div>
         <div class="product-info fade-up delay-1">
-          <div class="product-category">${catName}</div>
-          <h1>${lang() === 'ro' ? p.name_ro : p.name_ru}</h1>
+          <div class="product-category">${esc(catName)}</div>
+          <h1>${esc(name)}</h1>
           <div class="product-meta">
-            <span>${t('p.serial', 'Серия')}: <b>${p.serial}</b></span>
-            ${p.container && p.container !== 'склад' ? `<span>${t('cnt.container', 'Контейнер')}: <b>${p.container}</b></span>` : ''}
+            <span>${esc(t('p.serial', 'Серия'))}: <b>${esc(p.serial)}</b></span>
+            ${p.container && p.container !== 'склад' ? `<span>${esc(t('cnt.container', 'Контейнер'))}: <b>${esc(p.container)}</b></span>` : ''}
           </div>
-          <div class="product-price">${p.price ? p.price.toLocaleString('ru-RU') + ' €' : t('product.price.request', 'Цена по запросу')}</div>
+          <div class="product-price">${p.price ? p.price.toLocaleString('ru-RU') + ' €' : esc(t('product.price.request', 'Цена по запросу'))}</div>
           ${countdownHTML(p)}
-          ${p.status === 'reserved' ? `<div class="res-note">🔒 ${t('cnt.reserved.other', 'Забронирован другим клиентом. Оставьте заявку — сообщим, если позиция освободится.')}</div>` : ''}
-          <div class="product-description"><p>${lang() === 'ro' ? p.desc_ro : p.desc_ru}</p></div>
+          ${p.status === 'reserved' ? `<div class="res-note">${ico('lock')}<span>${esc(t('cnt.reserved.other', 'Забронирован другим клиентом. Оставьте заявку — сообщим, если позиция освободится.'))}</span></div>` : ''}
+          <div class="product-description"><p>${esc(lang() === 'ro' ? p.desc_ro : p.desc_ru)}</p></div>
           <div class="product-specs">
-            <h3>${t('product.specs', 'Характеристики')}</h3>
+            <h3>${esc(t('product.specs', 'Характеристики'))}</h3>
             <table>
-              ${p.specs.map((s) => `<tr><td>${lang() === 'ro' ? s[1] : s[0]}</td><td>${s[2]}</td></tr>`).join('')}
-              <tr><td>${t('p.serial', 'Серия')}</td><td>${p.serial}</td></tr>
-              <tr><td>${t('p.container', 'Контейнер / склад')}</td><td>${p.container === 'склад' ? t('p.warehouse', 'склад в Бельцах') : p.container}</td></tr>
+              ${p.specs.map((s) => `<tr><td>${esc(lang() === 'ro' ? s[1] : s[0])}</td><td>${esc(s[2])}</td></tr>`).join('')}
+              <tr><td>${esc(t('p.serial', 'Серия'))}</td><td>${esc(p.serial)}</td></tr>
+              <tr><td>${esc(t('p.container', 'Контейнер / склад'))}</td><td>${esc(p.container === 'склад' ? t('p.warehouse', 'склад в Бельцах') : p.container)}</td></tr>
             </table>
           </div>
           ${p.status === 'sold' ? '' : `<div class="discounts">
-            <div class="discount">💡 ${t('disc.1', 'Скидка 400 €, если берёте как из контейнера, без предпродажной подготовки')}</div>
-            <div class="discount">💡 ${t('disc.2', 'Скидка 200 € при предоплате от 40 % не позднее чем за две недели до прибытия')}</div>
+            <div class="discount">${ico('percent')}<span>${esc(t('disc.1', 'Скидка 400 €, если берёте как из контейнера, без предпродажной подготовки'))}</span></div>
+            <div class="discount">${ico('percent')}<span>${esc(t('disc.2', 'Скидка 200 € при предоплате от 40 % не позднее чем за две недели до прибытия'))}</span></div>
           </div>`}
           <div class="product-actions">
             ${a.act === 'similar'
-              ? `<a class="btn btn-primary" href="catalog.html">${t('btn.similar', 'Смотреть похожие')}</a>`
-              : `<button class="btn ${a.cls}" data-act="${a.act}" data-id="${p.id}" ${a.disabled ? 'disabled' : ''}>${ctaLabel(p)}</button>`}
-            <a class="btn btn-secondary" href="tel:+37360123456">📞 ${t('p.call', 'Позвонить')}</a>
+              ? `<a class="btn btn-primary" href="catalog.html">${esc(t('btn.similar', 'Смотреть похожие'))}</a>`
+              : `<button type="button" class="btn ${a.cls}" data-act="${a.act}" data-id="${p.id}"${a.disabled ? ' disabled' : ''}>${esc(ctaLabel(p))}</button>`}
+            <a class="btn btn-secondary" href="tel:+37360123456">${ico('phone')} ${esc(t('p.call', 'Позвонить'))}</a>
             <a class="btn btn-secondary" target="_blank" rel="noopener"
-               href="https://wa.me/37360123456?text=${encodeURIComponent((lang() === 'ro' ? 'Bună ziua! Mă interesează ' : 'Здравствуйте! Интересует ') + (lang() === 'ro' ? p.name_ro : p.name_ru) + ', ' + t('p.serial', 'серия') + ' ' + p.serial)}">💬 WhatsApp</a>
+               href="https://wa.me/37360123456?text=${encodeURIComponent((lang() === 'ro' ? 'Bună ziua! Mă interesează ' : 'Здравствуйте! Интересует ') + name + ', ' + t('p.serial', 'серия') + ' ' + p.serial)}">${ico('chat')} WhatsApp</a>
           </div>
         </div>
       </div>`;
@@ -320,45 +368,53 @@
     div.className = 'book-overlay';
     div.id = 'book-overlay';
     div.innerHTML = `
-      <div class="book-modal" role="dialog" aria-modal="true">
-        <button class="book-close" id="book-close" aria-label="Закрыть">✕</button>
-        <h3 id="book-title">${t('btn.reserve', 'Забронировать')}</h3>
+      <div class="book-modal" role="dialog" aria-modal="true" aria-labelledby="book-title">
+        <button type="button" class="book-close" id="book-close" aria-label="${esc(t('form.close', 'Закрыть'))}">${ico('x')}</button>
+        <h3 id="book-title">${esc(t('btn.reserve', 'Забронировать'))}</h3>
         <p class="book-sub" id="book-sub"></p>
         <form id="book-form">
           <div class="book-row">
-            <div class="form-group"><label class="book-lbl">${t('form.name', 'Имя')}</label><input class="form-input" required /></div>
-            <div class="form-group"><label class="book-lbl">${t('form.surname', 'Фамилия')}</label><input class="form-input" required /></div>
+            <div class="form-group"><label for="book-first">${esc(t('form.name', 'Имя'))}</label><input class="form-input" id="book-first" name="firstName" autocomplete="given-name" required /></div>
+            <div class="form-group"><label for="book-last">${esc(t('form.surname', 'Фамилия'))}</label><input class="form-input" id="book-last" name="lastName" autocomplete="family-name" required /></div>
           </div>
-          <div class="form-group"><label class="book-lbl">${t('form.phone', 'Телефон')}</label><input class="form-input" type="tel" required placeholder="+373 ___ ___ ___" /></div>
-          <div class="form-group"><label class="book-lbl">${t('form.comment', 'Комментарий')}</label><textarea class="form-input" rows="2"></textarea></div>
-          <label class="book-consent"><input type="checkbox" required checked /> <span>${t('form.consent', 'Согласен на обработку персональных данных')}</span></label>
-          <button type="submit" class="btn btn-accent btn-lg" style="width:100%">${t('btn.reserve', 'Забронировать')}</button>
-          <p class="book-note">${t('form.note', 'Менеджер позвонит, подтвердит наличие и расскажет про предоплату.')}</p>
+          <div class="form-group"><label for="book-phone">${esc(t('form.phone', 'Телефон'))}</label><input class="form-input" id="book-phone" name="phone" type="tel" autocomplete="tel" required placeholder="+373 ___ ___ ___" /></div>
+          <div class="form-group"><label for="book-comment">${esc(t('form.comment', 'Комментарий'))}</label><textarea class="form-input" id="book-comment" name="comment" rows="2"></textarea></div>
+          <label class="book-consent"><input type="checkbox" id="book-consent" name="consent" required /> <span>${esc(t('form.consent', 'Согласен на обработку персональных данных'))}</span></label>
+          <button type="submit" class="btn btn-accent btn-lg book-submit">${esc(t('btn.reserve', 'Забронировать'))}</button>
+          <p class="book-note">${esc(t('form.note', 'Менеджер позвонит, подтвердит наличие и расскажет про предоплату.'))}</p>
         </form>
         <div id="book-done" class="book-done" hidden>
-          <b>${t('form.ok.title', 'Заявка принята!')}</b><br>${t('form.ok.text', 'Менеджер свяжется с вами в ближайшее время.')}
-          <button class="btn btn-primary btn-sm" id="book-done-close" style="margin-top:12px">${t('form.close', 'Закрыть')}</button>
+          ${ico('checkCircle', 'ico')}
+          <p><b>${esc(t('form.ok.title', 'Заявка принята!'))}</b><br>${esc(t('form.ok.text', 'Менеджер свяжется с вами в ближайшее время.'))}</p>
+          <button type="button" class="btn btn-primary btn-sm" id="book-done-close">${esc(t('form.close', 'Закрыть'))}</button>
         </div>
       </div>`;
     document.body.appendChild(div);
 
-    const close = () => div.classList.remove('open');
+    const close = () => {
+      div.classList.remove('open');
+      document.body.style.overflow = '';
+    };
     div.addEventListener('click', (e) => { if (e.target === div) close(); });
     div.querySelector('#book-close').addEventListener('click', close);
     div.querySelector('#book-done-close').addEventListener('click', close);
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && div.classList.contains('open')) close();
+    });
     div.querySelector('#book-form').addEventListener('submit', (e) => {
       e.preventDefault();
       const f = e.target;
-      const inputs = f.querySelectorAll('input');
+      const data = new FormData(f);
       const id = +f.dataset.id;
       const p = allProducts().find((x) => x.id === id);
       saveBooking({
-        id: Date.now(), productId: id,
+        id: Date.now(),
+        productId: id,
         product: p ? (lang() === 'ro' ? p.name_ro : p.name_ru) : '',
-        name: `${inputs[0].value} ${inputs[1].value}`.trim(),
-        phone: inputs[2].value,
-        comment: f.querySelector('textarea').value,
-        date: new Date().toLocaleString('ru-RU', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' }),
+        name: `${data.get('firstName')} ${data.get('lastName')}`.trim(),
+        phone: data.get('phone'),
+        comment: data.get('comment') || '',
+        date: new Date().toLocaleString(lang() === 'ro' ? 'ro-RO' : 'ru-RU', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' }),
         status: 'new'
       });
       f.hidden = true;
@@ -372,8 +428,9 @@
     const div = document.getElementById('book-overlay');
     const p = allProducts().find((x) => x.id === +id);
     if (!p) return;
+    const name = lang() === 'ro' ? p.name_ro : p.name_ru;
     div.querySelector('#book-title').textContent = fromStock ? t('btn.inquiry', 'Оставить заявку') : t('btn.reserve', 'Забронировать');
-    div.querySelector('#book-sub').textContent = `${lang() === 'ro' ? p.name_ro : p.name_ru} · ${t('p.serial', 'серия')} ${p.serial}` +
+    div.querySelector('#book-sub').textContent = `${name} · ${t('p.serial', 'серия')} ${p.serial}` +
       (isInCountry(p) ? '' : ` · ${t('cnt.expected', 'поставка ожидается')} ${fmt(p.arrival)}`);
     const form = div.querySelector('#book-form');
     form.dataset.id = p.id;
@@ -381,26 +438,31 @@
     form.reset();
     div.querySelector('#book-done').hidden = true;
     div.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    const first = form.querySelector('#book-first');
+    if (first) first.focus();
   }
 
   /* ---------- демо-админка ---------- */
   function renderAdminRows() {
     const tbody = document.getElementById('admin-rows');
     if (!tbody) return;
+    const statuses = Object.keys(STATUS);
     tbody.innerHTML = allProducts().map((p) => {
       const left = leftDays(p.arrival);
       const hint = isInCountry(p)
         ? t('admin.in.country', 'уже в Молдове')
-        : (left < 0 ? t('cnt.late', 'Рейс задерживается') : (lang() === 'ro' ? 'au rămas ' + left + ' zile' : 'осталось ' + left + ' дн.'));
+        : (left < 0 ? t('cnt.late', 'Рейс задерживается') : t('admin.left', 'осталось') + ' ' + daysLabel(left));
       return `<tr data-id="${p.id}">
-        <td><b>${p.name_ru}</b><span class="admin-sub">${t('p.serial', 'Серия')} ${p.serial} · ${p.container}</span></td>
-        <td><span class="st-badge ${STATUS[p.status].cls}">${statusLabel(p.status)}</span><br>
-            <select class="admin-input" data-status="${p.id}">
-              ${Object.keys(STATUS).map((k) => `<option value="${k}" ${k === p.status ? 'selected' : ''}>${statusLabel(k)}</option>`).join('')}
+        <td><span class="admin-name">${esc(lang() === 'ro' ? p.name_ro : p.name_ru)}</span><span class="admin-sub">${esc(t('p.serial', 'Серия'))} ${esc(p.serial)} · ${esc(p.container)}</span></td>
+        <td><span class="st-badge ${STATUS[p.status]}">${esc(statusLabel(p.status))}</span>
+            <select class="admin-input admin-input-block" data-status="${p.id}" aria-label="${esc(t('admin.col.status', 'Статус'))}">
+              ${statuses.map((k) => `<option value="${k}"${k === p.status ? ' selected' : ''}>${esc(statusLabel(k))}</option>`).join('')}
             </select></td>
-        <td><input class="admin-input" type="number" min="0" value="${p.days || 0}" data-days="${p.id}" style="width:78px"> <span class="admin-sub">${dayWord(p.days || 0)}</span></td>
-        <td><input class="admin-input" type="date" value="${p.arrival}" data-arrival="${p.id}">
-            <span class="admin-sub">${hint}</span></td>
+        <td><input class="admin-input admin-input-num" type="number" min="0" value="${p.days || 0}" data-days="${p.id}" aria-label="${esc(t('admin.col.term', 'Срок поставки'))}">
+            <span class="admin-sub">${esc(dayWord(p.days || 0))}</span></td>
+        <td><input class="admin-input" type="date" value="${esc(p.arrival)}" data-arrival="${p.id}" aria-label="${esc(t('admin.col.arrival', 'Дата прибытия'))}">
+            <span class="admin-sub">${esc(hint)}</span></td>
       </tr>`;
     }).join('');
     renderAdminQueue();
@@ -412,20 +474,20 @@
     if (!box) return;
     const list = bookings();
     if (!list.length) {
-      box.innerHTML = `<div class="admin-empty">${t('admin.no.bookings', 'Заявок пока нет. Оформите бронь на сайте — она появится здесь.')}</div>`;
+      box.innerHTML = `<div class="admin-empty">${esc(t('admin.no.bookings', 'Заявок пока нет. Оформите бронь на сайте — она появится здесь.'))}</div>`;
       return;
     }
     box.innerHTML = list.map((b) => {
       const isNew = b.status === 'new';
       return `<div class="admin-queue-item${isNew ? ' is-new' : ''}">
-        <div class="admin-who">${b.name} · <a href="tel:${b.phone}">${b.phone}</a></div>
-        <div class="admin-sub">${b.product || ''} · ${b.date}${b.comment ? ' · ' + b.comment : ''}</div>
+        <div class="admin-who">${esc(b.name)} · <a href="tel:${esc(b.phone)}">${esc(b.phone)}</a></div>
+        <div class="admin-sub">${esc(b.product || '')} · ${esc(b.date)}${b.comment ? ' · ' + esc(b.comment) : ''}</div>
         <div class="admin-acts">
           ${isNew
-            ? `<button class="btn btn-primary btn-sm" data-confirm="${b.id}">✔ ${t('admin.confirm', 'Подтвердить бронь')}</button>
-               <button class="btn btn-secondary btn-sm" data-reject="${b.id}">${t('admin.reject', 'Отказ')}</button>`
-            : `<span class="admin-sub">${b.status === 'confirmed' ? t('admin.confirmed', 'подтверждена, ждёт предоплату') : t('admin.rejected', 'отказ')}</span>`}
-          <button class="btn btn-secondary btn-sm" data-mail="${b.id}" title="${t('admin.mail.hint', 'в WordPress письмо уходит менеджеру автоматически')}">✉ E-mail</button>
+            ? `<button type="button" class="btn btn-primary btn-sm" data-confirm="${b.id}">${ico('check')} ${esc(t('admin.confirm', 'Подтвердить бронь'))}</button>
+               <button type="button" class="btn btn-secondary btn-sm" data-reject="${b.id}">${esc(t('admin.reject', 'Отказ'))}</button>`
+            : `<span class="admin-sub">${esc(b.status === 'confirmed' ? t('admin.confirmed', 'подтверждена, ждёт предоплату') : t('admin.rejected', 'отказ'))}</span>`}
+          <button type="button" class="btn btn-secondary btn-sm" data-mail="${b.id}" title="${esc(t('admin.mail.hint', 'в WordPress письмо уходит менеджеру автоматически'))}">${ico('mail')} E-mail</button>
         </div>
       </div>`;
     }).join('');
@@ -465,13 +527,12 @@
       const btn = e.target.closest('[data-act="book"]');
       if (btn && !btn.disabled) {
         e.preventDefault();
-        e.stopPropagation();
         const p = allProducts().find((x) => x.id === +btn.dataset.id);
         openBooking(btn.dataset.id, p && p.status === 'stock');
         return;
       }
       const sim = e.target.closest('[data-act="similar"]');
-      if (sim) { e.preventDefault(); e.stopPropagation(); location.href = 'catalog.html'; return; }
+      if (sim) { e.preventDefault(); location.href = 'catalog.html'; return; }
 
       // админка: подтверждение и отказ
       const c = e.target.closest('[data-confirm]');
@@ -534,7 +595,7 @@
 
     // дата обновления каталога (как на сайте-образце)
     document.querySelectorAll('[data-updated]').forEach((el) => {
-      el.textContent = new Date().toLocaleString('ru-RU', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+      el.textContent = new Date().toLocaleString(lang() === 'ro' ? 'ro-RO' : 'ru-RU', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
     });
     relang();
   }

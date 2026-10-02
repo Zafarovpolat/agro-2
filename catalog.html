@@ -95,6 +95,7 @@
               <option value="stock" data-i18n="status.stock">В наличии</option>
               <option value="transit" data-i18n="status.transit">В дороге</option>
               <option value="reserved" data-i18n="status.reserved">Забронировано</option>
+              <option value="sold" data-i18n="status.sold">Продан</option>
             </select>
             <select class="shop-select" id="shop-sort" aria-label="Сортировка">
               <option value="arrival" data-i18n="catalog.sort.arrival">по дате прибытия</option>
@@ -112,7 +113,8 @@
         </div>
 
         <div class="products-grid" id="products-grid"></div>
-
+      </div>
+    </section>
 
     <!-- CTA -->
     <section class="cta">
@@ -193,16 +195,5 @@
   <script src="js/main.js"></script>
   <script src="js/data.js"></script>
   <script src="js/shop.js"></script>
-  <script>
-    // Activate filter from URL query parameter
-    (function() {
-      const params = new URLSearchParams(window.location.search);
-      const cat = params.get('cat');
-      if (cat) {
-        const btn = document.querySelector('[data-filter="' + cat + '"]');
-        if (btn) btn.click();
-      }
-    })();
-  </script>
 </body>
 </html>

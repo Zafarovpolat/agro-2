@@ -10,7 +10,7 @@ import { JSDOM } from 'jsdom';
 const BASE = 'http://127.0.0.1:8091';
 let pass = 0, fail = 0;
 const check = (name, cond, extra = '') => {
-  console.log((cond ? '  ✅ ' : '  ❌ ') + name + (extra ? ' → ' + extra : ''));
+  console.log((cond ? '  OK   ' : '  FAIL ') + name + (extra ? ' -> ' + extra : ''));
   cond ? pass++ : fail++;
 };
 

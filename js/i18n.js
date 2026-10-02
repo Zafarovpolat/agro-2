@@ -292,6 +292,27 @@ const translations = {
   "admin.reset":        { ru: "Сбросить демо-данные", ro: "Resetați datele demo" },
   "admin.hint.status":  { ru: "Статус из этого списка сразу меняет стикер и кнопку на витрине.", ro: "Statutul din această listă schimbă imediat eticheta și butonul pe site." },
   "admin.hint.dates":   { ru: "«Срок поставки» и «дата прибытия» связаны: меняете одно — второе пересчитывается. Если рейс задержался, дату сдвигают вручную.", ro: "„Termenul de livrare” și „data sosirii” sunt legate: modificați unul — celălalt se recalculează. Dacă transportul întârzie, data se schimbă manual." },
+  "admin.left":         { ru: "осталось", ro: "au rămas" },
+  "admin.col.item":     { ru: "Позиция", ro: "Poziție" },
+  "admin.products.hint":{ ru: "Статус меняет витрину", ro: "Statutul schimbă vitrina" },
+  "admin.queue":        { ru: "Заявки на бронь", ro: "Cereri de rezervare" },
+  "admin.queue.hint":   { ru: "В WordPress такая заявка уходит письмом менеджеру на e-mail. В демо она сохраняется в браузере, чтобы можно было показать весь путь: заявка — звонок — предоплата — стикер «Забронировано».", ro: "În WordPress cererea ajunge prin e-mail la manager. În demo se salvează în browser, ca să puteți arăta tot traseul: cerere — apel — avans — eticheta „Rezervat”." },
+  "admin.plan.title":   { ru: "Что будет в админке WordPress", ro: "Ce va fi în adminul WordPress" },
+  "admin.plan.1.t":     { ru: "Техника", ro: "Utilaje" },
+  "admin.plan.1.d":     { ru: "Название, марка, модель, серийный номер, контейнер, цена, характеристики, описание на RU и RO, до 15 фото с перетаскиванием порядка, видео.", ro: "Denumire, marcă, model, serie, container, preț, caracteristici, descriere RU și RO, până la 15 fotografii cu ordonare prin tragere, video." },
+  "admin.plan.2.t":     { ru: "Контейнеры", ro: "Containere" },
+  "admin.plan.2.d":     { ru: "Номер контейнера, дата прибытия, примечание. Позиции привязываются к контейнеру — блок «Контейнеры в пути» на сайте обновляется сам.", ro: "Numărul containerului, data sosirii, notă. Pozițiile se leagă de container — blocul „Containere pe drum” se actualizează singur." },
+  "admin.plan.3.t":     { ru: "Заявки и брони", ro: "Cereri și rezervări" },
+  "admin.plan.3.d":     { ru: "ФИО и телефон клиента, письмо менеджеру на e-mail, отметки «подтверждена» и «отказ», автоматический перевод товара в «Забронировано».", ro: "Numele și telefonul clientului, e-mail către manager, marcajele „confirmată” și „refuz”, trecerea automată a utilajului în „Rezervat”." },
+  "admin.plan.4.t":     { ru: "Роли и статистика", ro: "Roluri și statistici" },
+  "admin.plan.4.d":     { ru: "Администратор и менеджер (менеджер видит только технику и заявки). Просмотры карточек и конверсия в заявки — видно, что брать в следующий контейнер.", ro: "Administrator și manager (managerul vede doar utilajele și cererile). Vizualizări și conversie în cereri — se vede ce să aduceți în următorul container." },
+  "admin.toSite":       { ru: "На сайт", ro: "Pe site" },
+  "admin.back":         { ru: "Вернуться на сайт", ro: "Înapoi la site" },
+  "admin.footer":       { ru: "© 2026 AgroNord. Демо-режим: данные хранятся в браузере, реальные письма не отправляются.", ro: "© 2026 AgroNord. Mod demo: datele se păstrează în browser, scrisorile reale nu se trimit." },
+  "admin.note":         { ru: "Это макет того, как менеджер будет управлять сайтом. Статус, срок поставки и дата прибытия меняются здесь — и на витрине сразу обновляются стикер, счётчик дней и кнопка («Забронировать» или «Оставить заявку»). Заявки с формы брони падают в правый блок: менеджер звонит, получает предоплату и нажимает «Подтвердить бронь» — у товара появляется стикер «Забронировано».", ro: "Acesta este un model al modului în care managerul va administra site-ul. Statutul, termenul și data sosirii se schimbă aici — iar pe vitrină se actualizează imediat eticheta, contorul de zile și butonul („Rezervă” sau „Trimite cerere”). Cererile din formular ajung în blocul din dreapta: managerul sună, încasează avansul și apasă „Confirmă rezervarea” — utilajul primește eticheta „Rezervat”." },
+
+  /* ---- Карточка товара ---- */
+  "card.fav": { ru: "В избранное", ro: "La favorite" },
 
   /* ---- Menu label ---- */
   "menu.label": { ru: "Меню", ro: "Meniu" },

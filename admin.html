@@ -16,7 +16,7 @@
       <div style="display:flex;align-items:center;gap:40px;">
         <a href="index.html" class="header-logo"><img src="public/logo.svg" alt="AgroNord" /></a>
         <nav class="header-nav">
-          <a href="index.html">На сайт</a>
+          <a href="index.html" data-i18n="admin.toSite">На сайт</a>
           <a href="catalog.html" data-i18n="nav.catalog">Каталог</a>
         </nav>
       </div>
@@ -36,63 +36,70 @@
 
         <div class="admin-note">
           <b data-i18n="admin.title">Демо-админка.</b>
-          Это макет того, как менеджер будет управлять сайтом. Статус, срок поставки и дата прибытия меняются здесь —
-          и на витрине сразу обновляются стикер, счётчик дней и кнопка («Забронировать» или «В наличии»).
-          Заявки с формы брони падают в правый блок: менеджер звонит, получает предоплату и нажимает «Подтвердить бронь» —
-          у товара появляется стикер «Забронировано».
+          <span data-i18n="admin.note">Это макет того, как менеджер будет управлять сайтом. Статус, срок поставки и дата прибытия меняются здесь — и на витрине сразу обновляются стикер, счётчик дней и кнопка («Забронировать» или «Оставить заявку»). Заявки с формы брони падают в правый блок: менеджер звонит, получает предоплату и нажимает «Подтвердить бронь» — у товара появляется стикер «Забронировано».</span>
         </div>
 
         <div class="admin-grid">
           <div class="admin-panel">
-            <h2><span data-i18n="admin.products">Техника</span> <span class="admin-tag" data-i18n="admin.hint.status">статус меняет витрину</span></h2>
-            <table class="admin-table">
-              <thead>
-                <tr>
-                  <th>Позиция</th>
-                  <th data-i18n="admin.col.status">Статус</th>
-                  <th data-i18n="admin.col.term">Срок поставки</th>
-                  <th data-i18n="admin.col.arrival">Дата прибытия</th>
-                </tr>
-              </thead>
-              <tbody id="admin-rows"></tbody>
-            </table>
-            <p class="admin-sub" style="margin-top:14px" data-i18n="admin.hint.dates">
+            <h2><span data-i18n="admin.products">Техника</span> <span class="admin-tag" data-i18n="admin.products.hint">Статус меняет витрину</span></h2>
+            <div class="admin-table-wrap">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th data-i18n="admin.col.item">Позиция</th>
+                    <th data-i18n="admin.col.status">Статус</th>
+                    <th data-i18n="admin.col.term">Срок поставки</th>
+                    <th data-i18n="admin.col.arrival">Дата прибытия</th>
+                  </tr>
+                </thead>
+                <tbody id="admin-rows"></tbody>
+              </table>
+            </div>
+            <p class="admin-sub admin-hint" data-i18n="admin.hint.dates">
               «Срок поставки» и «дата прибытия» связаны: меняете одно — второе пересчитывается. Если рейс задержался, дату сдвигают вручную.
             </p>
           </div>
 
           <div class="admin-panel">
-            <h2>Заявки на бронь</h2>
+            <h2><span data-i18n="admin.queue">Заявки на бронь</span></h2>
             <div id="admin-queue"></div>
-            <p class="admin-sub" style="margin-top:14px">
-              В WordPress такая заявка уходит письмом менеджеру на e-mail. Здесь, в демо, она сохраняется в браузере,
-              чтобы можно было показать весь процесс: заявка → звонок → предоплата → стикер «Забронировано».
+            <p class="admin-sub admin-hint" data-i18n="admin.queue.hint">
+              В WordPress такая заявка уходит письмом менеджеру на e-mail. В демо она сохраняется в браузере,
+              чтобы можно было показать весь путь: заявка — звонок — предоплата — стикер «Забронировано».
             </p>
           </div>
         </div>
 
-        <div class="admin-panel" style="margin-top:22px">
-          <h2>Что будет в админке WordPress</h2>
-          <div class="how-steps" style="margin-top:8px">
+        <div class="admin-panel admin-hint">
+          <h2 data-i18n="admin.plan.title">Что будет в админке WordPress</h2>
+          <div class="how-steps">
             <div class="how-step">
-              <div class="how-num">📦</div>
-              <h3>Техника</h3>
-              <p>Название, марка, модель, серийный номер, контейнер, цена, характеристики, описание на RU и RO, до 15 фото с перетаскиванием порядка, видео.</p>
+              <div class="how-num">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z"/><path d="M12 22V12"/><path d="m3.3 7 8.7 5 8.7-5"/></svg>
+              </div>
+              <h3 data-i18n="admin.plan.1.t">Техника</h3>
+              <p data-i18n="admin.plan.1.d">Название, марка, модель, серийный номер, контейнер, цена, характеристики, описание на RU и RO, до 15 фото с перетаскиванием порядка, видео.</p>
             </div>
             <div class="how-step">
-              <div class="how-num">🚚</div>
-              <h3>Контейнеры</h3>
-              <p>Номер контейнера, дата прибытия, примечание. Позиции привязываются к контейнеру — блок «Контейнеры в пути» на сайте обновляется сам.</p>
+              <div class="how-num">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.62l-3.48-4.35A1 1 0 0 0 17.52 8H14"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/></svg>
+              </div>
+              <h3 data-i18n="admin.plan.2.t">Контейнеры</h3>
+              <p data-i18n="admin.plan.2.d">Номер контейнера, дата прибытия, примечание. Позиции привязываются к контейнеру — блок «Контейнеры в пути» на сайте обновляется сам.</p>
             </div>
             <div class="how-step">
-              <div class="how-num">🔔</div>
-              <h3>Заявки и брони</h3>
-              <p>ФИО и телефон клиента, письмо менеджеру на e-mail, отметки «подтверждена» и «отказ», автоматический перевод товара в «Забронировано».</p>
+              <div class="how-num">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.268 21a2 2 0 0 0 3.464 0"/><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"/></svg>
+              </div>
+              <h3 data-i18n="admin.plan.3.t">Заявки и брони</h3>
+              <p data-i18n="admin.plan.3.d">ФИО и телефон клиента, письмо менеджеру на e-mail, отметки «подтверждена» и «отказ», автоматический перевод товара в «Забронировано».</p>
             </div>
             <div class="how-step">
-              <div class="how-num">👥</div>
-              <h3>Роли и статистика</h3>
-              <p>Администратор и менеджер (менеджер видит только технику и заявки). Просмотры карточек и конверсия в заявки — видно, что брать в следующий контейнер.</p>
+              <div class="how-num">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              </div>
+              <h3 data-i18n="admin.plan.4.t">Роли и статистика</h3>
+              <p data-i18n="admin.plan.4.d">Администратор и менеджер (менеджер видит только технику и заявки). Просмотры карточек и конверсия в заявки — видно, что брать в следующий контейнер.</p>
             </div>
           </div>
         </div>
@@ -105,9 +112,12 @@
   <footer class="footer">
     <div class="container">
       <div class="footer-bottom">
-        <p>© 2026 AgroNord. Демо-режим: данные хранятся в браузере, реальные письма не отправляются.</p>
+        <p data-i18n="admin.footer">© 2026 AgroNord. Демо-режим: данные хранятся в браузере, реальные письма не отправляются.</p>
         <div class="footer-bottom-links">
-          <a href="index.html">← вернуться на сайт</a>
+          <a href="index.html" style="display:flex;align-items:center;gap:6px;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
+            <span data-i18n="admin.back">Вернуться на сайт</span>
+          </a>
         </div>
       </div>
     </div>
