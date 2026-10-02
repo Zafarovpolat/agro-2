@@ -88,7 +88,9 @@ try {
   check('счётчик «Ожидается со дня на день» есть', counts.some((t) => /Ожидается со дня на день/.test(t)));
   check('счётчик «Рейс задерживается» есть (без минусов)', counts.some((t) => /Рейс задерживается/.test(t)) && !counts.some((t) => /-\d+\s*(дн|день|дня)/.test(t)));
   check('у техники в наличии — «В Молдове с <дата>»', counts.some((t) => /В Молдове с \d{2}\.\d{2}\.\d{4}/.test(t)));
-  check('прогресс-бары отрисованы', d.querySelectorAll('.count-bar i').length >= 5, d.querySelectorAll('.count-bar i').length + ' шт.');
+  check('в карточках каталога счётчик в одну строку: без подписи и полосы',
+    d.querySelectorAll('#products-grid .count-sub').length === 0 && d.querySelectorAll('#products-grid .count-bar').length === 0,
+    d.querySelectorAll('#products-grid .count-sub').length + ' подписей, ' + d.querySelectorAll('#products-grid .count-bar').length + ' полос');
   const btns = cards.map((c) => c.querySelector('.product-card-book')?.textContent.trim()).filter(Boolean);
   check('кнопка «Забронировать» на позициях в пути', btns.includes('Забронировать'), btns.filter(Boolean).slice(0, 3).join(' | '));
   check('у наличия — «Оставить заявку»', btns.includes('Оставить заявку'));

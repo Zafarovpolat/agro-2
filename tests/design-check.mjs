@@ -107,15 +107,15 @@ const contrast = (a, b) => { const l1 = lum(a), l2 = lum(b); return (Math.max(l1
 const token = (name) => (css.match(new RegExp(name + '\\s*:\\s*(#[0-9A-Fa-f]{6})')) || [])[1];
 const accentBtn = (css.match(/\.btn-accent\s*\{([^}]*)\}/) || [])[1] || '';
 const accent = token('--accent') || '#F59E0B';
-const dark = token('--dark') || '#111827';
 if (/background:\s*var\(--accent\)/.test(accentBtn)) ok('.btn-accent — исходный янтарь --accent');
 else bad('.btn-accent: заливка не var(--accent)');
-if (/color:\s*var\(--dark\)/.test(accentBtn)) ok('.btn-accent — тёмный текст, как в базовой вёрстке');
-else bad('.btn-accent: текст не var(--dark)');
-const c = contrast(dark, accent);
-c >= 4.5 ? ok('читаемость: тёмный текст на --accent ' + c.toFixed(2) + ':1')
-         : bad('читаемость: ' + c.toFixed(2) + ':1 (< 4.5)');
-console.log('  INFO  белый текст на --accent дал бы ' + contrast('#FFFFFF', accent).toFixed(2) + ':1 — поэтому текст тёмный');
+if (/color:\s*var\(--white\)/.test(accentBtn)) ok('.btn-accent — белый текст (требование клиента)');
+else bad('.btn-accent: текст не белый');
+// белый на янтаре не проходит AA по контрасту, поэтому текст обязан иметь тень-подложку
+if (/text-shadow/.test(accentBtn)) ok('.btn-accent — у белого текста есть тень-подложка (компенсация контраста)');
+else bad('.btn-accent: белому тексту на янтаре нужна тень, иначе он теряется');
+console.log('  INFO  контраст белого на --accent: ' + contrast('#FFFFFF', accent).toFixed(2) + ':1 — ниже нормы AA; ' +
+  'осознанное исключение по требованию заказчика, компенсировано тенью');
 
 console.log('\n' + (fail ? 'ИТОГ: проверка дизайн-системы НЕ пройдена (' + fail + ' замечаний)' : 'ИТОГ: проверка дизайн-системы пройдена'));
 process.exit(fail ? 1 : 0);

@@ -226,7 +226,8 @@ const translations = {
   /* ---- Каталог: фильтры ---- */
   "catalog.shown":   { ru: "показано", ro: "afișate" },
   "catalog.of":      { ru: "из", ro: "din" },
-  "catalog.reset":   { ru: "сбросить", ro: "resetare" },
+  "catalog.reset":   { ru: "Сбросить", ro: "Resetează" },
+  "catalog.reset.link": { ru: "сбросить", ro: "resetare" },
   "catalog.nothing": { ru: "Ничего не найдено — измените фильтры.", ro: "Nimic găsit — modificați filtrele." },
   "catalog.search":  { ru: "Поиск: марка, модель или серия...", ro: "Căutare: marcă, model sau serie..." },
   "catalog.free":    { ru: "Только свободные", ro: "Doar cele libere" },

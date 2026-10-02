@@ -76,7 +76,7 @@
     </div>
 
     <!-- Catalog -->
-    <section class="section section--soft">
+    <section class="section section--soft section--tight">
       <div class="container">
         <!-- Filters -->
         <div class="catalog-filters fade-up">
@@ -90,6 +90,7 @@
 
           <div class="shop-controls">
             <input class="shop-input" id="shop-search" type="search" data-i18n="catalog.search" placeholder="Поиск: марка, модель или серия..." />
+            <div class="select">
             <select class="shop-select" id="shop-status" aria-label="Статус">
               <option value="all" data-i18n="filter.all">Все</option>
               <option value="stock" data-i18n="status.stock">В наличии</option>
@@ -97,11 +98,16 @@
               <option value="reserved" data-i18n="status.reserved">Забронировано</option>
               <option value="sold" data-i18n="status.sold">Продан</option>
             </select>
+            <svg class="ico" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+            </div>
+            <div class="select">
             <select class="shop-select" id="shop-sort" aria-label="Сортировка">
               <option value="arrival" data-i18n="catalog.sort.arrival">по дате прибытия</option>
               <option value="new" data-i18n="catalog.sort.new">сначала новые поступления</option>
               <option value="name" data-i18n="catalog.sort.name">по названию</option>
             </select>
+            <svg class="ico" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+            </div>
             <label class="shop-check"><input type="checkbox" id="shop-free" /> <span data-i18n="catalog.free">Только свободные</span></label>
             <button type="button" class="btn btn-secondary btn-sm" id="shop-reset" data-i18n="catalog.reset">сбросить</button>
           </div>
