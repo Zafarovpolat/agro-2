@@ -33,6 +33,12 @@
   const relang = () => {
     if (typeof applyLang === 'function') applyLang(typeof getLang === 'function' ? getLang() : 'ru');
   };
+  // динамические блоки (карточки каталога, страница товара) появляются уже
+  // после DOMContentLoaded, поэтому после каждой отрисовки просим main.js
+  // показать новые .fade-up — иначе они остаются с opacity: 0
+  const animate = () => {
+    if (typeof window.agroAnimate === 'function') window.agroAnimate();
+  };
 
   /* ---------- экранирование ----------
      Данные из формы брони (имя, телефон, комментарий) приходят от
@@ -239,6 +245,7 @@
       if (r) r.addEventListener('click', () => { state.cont = ''; renderCatalog(); });
     }
     document.querySelectorAll('.filter-btn').forEach((b) => b.classList.toggle('active', !state.cont && b.dataset.filter === state.cat));
+    animate();
     relang();
   }
 
@@ -302,6 +309,7 @@
       host.innerHTML = `<div class="catalog-empty">${esc(t('product.notfound', 'Позиция не найдена — возможно, она уже продана.'))}
         <p><a class="btn btn-primary btn-sm" href="catalog.html">${esc(t('product.back', 'В каталог'))}</a></p></div>`;
       if (rel) rel.innerHTML = list.slice(0, 4).map((x, i) => cardHTML(x, i)).join('');
+      animate();
       relang();
       return;
     }
@@ -358,6 +366,7 @@
         .sort((x, y) => (y.brand === p.brand ? 1 : 0) - (x.brand === p.brand ? 1 : 0) || parse(x.arrival) - parse(y.arrival))
         .slice(0, 4).map((x, i) => cardHTML(x, i)).join('');
     }
+    animate();
     relang();
   }
 
@@ -594,6 +603,8 @@
     renderAdminRows();
 
     // дата обновления каталога (как на сайте-образце)
+    animate();
+
     document.querySelectorAll('[data-updated]').forEach((el) => {
       el.textContent = new Date().toLocaleString(lang() === 'ro' ? 'ro-RO' : 'ru-RU', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
     });

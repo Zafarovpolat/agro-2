@@ -20,7 +20,14 @@ async function open(path, storage = {}, waitMs = 900) {
     resources: 'usable',
     pretendToBeVisual: true,
     beforeParse(win) {
-      win.IntersectionObserver = class { observe() {} unobserve() {} disconnect() {} };
+      // как реальный браузер: оказавшийся во вьюпорте элемент сразу получает .visible.
+      // Раньше заглушка ничего не делала, и «карточки существуют, но невидимы» тесты не ловили.
+      win.IntersectionObserver = class {
+        constructor(cb) { this.cb = cb; }
+        observe(el) { this.cb([{ target: el, isIntersecting: true }], this); }
+        unobserve() {}
+        disconnect() {}
+      };
       win.HTMLElement.prototype.scrollIntoView = function () {};
       Object.entries(storage).forEach(([k, v]) => win.localStorage.setItem(k, v));
       win.__errors = [];
@@ -86,6 +93,9 @@ try {
   check('кнопка «Забронировать» на позициях в пути', btns.includes('Забронировать'), btns.filter(Boolean).slice(0, 3).join(' | '));
   check('у наличия — «Оставить заявку»', btns.includes('Оставить заявку'));
   check('у забронированного кнопка disabled', cards.some((c) => c.querySelector('[disabled]')));
+  check('карточки каталога видимы (получили .visible после отрисовки)',
+    cards.length > 0 && cards.every((c) => c.classList.contains('visible')),
+    cards.filter((c) => !c.classList.contains('visible')).length + ' невидимых');
 
   /* фильтры */
   click(w, d.querySelector('.filter-btn[data-filter="tractors"]'));
@@ -142,6 +152,10 @@ try {
   check('кнопка «Забронировать»', d.querySelector('[data-act="book"]')?.textContent.trim() === 'Забронировать');
   check('характеристики подставлены', d.querySelectorAll('.product-specs tr').length === 5);
   check('похожие товары отрисованы', d.querySelectorAll('#related-grid .product-card').length === 4);
+  check('галерея и описание товара видимы (класс .visible)',
+    !!d.querySelector('.product-gallery.visible') && !!d.querySelector('.product-info.visible'));
+  check('похожие товары видимы',
+    [...d.querySelectorAll('#related-grid .product-card')].every((c) => c.classList.contains('visible')));
   check('заголовок вкладки обновился', /John Deere 8R — AgroNord/.test(d.title), d.title);
   w.close();
 

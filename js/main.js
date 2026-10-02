@@ -46,25 +46,43 @@ function initMobileMenu() {
   });
 }
 
-/* ---------- Scroll-triggered animations ---------- */
+/* ---------- Scroll-triggered animations ----------
+   Наблюдатель один на страницу и переиспользуется: каталог и страница товара
+   отрисовываются из JS уже после загрузки, поэтому одного прохода при
+   DOMContentLoaded недостаточно — иначе динамические .fade-up (opacity: 0)
+   остаются невидимыми. shop.js зовёт эту же функцию после каждой отрисовки. */
+let fadeObserver = null;
+
 function initScrollAnimations() {
-  const elements = document.querySelectorAll('.fade-up');
+  const elements = document.querySelectorAll('.fade-up:not(.visible)');
   if (!elements.length) return;
 
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          observer.unobserve(entry.target);
-        }
-      });
-    },
-    { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
-  );
+  // страховка для сред без IntersectionObserver: показываем сразу,
+  // контент никогда не должен оставаться скрытым
+  if (typeof IntersectionObserver === 'undefined') {
+    elements.forEach((el) => el.classList.add('visible'));
+    return;
+  }
 
-  elements.forEach(el => observer.observe(el));
+  if (!fadeObserver) {
+    fadeObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            fadeObserver.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
+    );
+  }
+
+  elements.forEach(el => fadeObserver.observe(el));
 }
+
+// доступно для shop.js: вызывается после отрисовки динамических блоков
+window.agroAnimate = initScrollAnimations;
 
 /* ---------- Smooth scroll for anchor links ---------- */
 function initSmoothScroll() {
