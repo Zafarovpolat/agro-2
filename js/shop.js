@@ -88,6 +88,12 @@
     return plural(n, 'день', 'дня', 'дней');
   };
   const daysLabel = (n) => `${n} ${dayWord(n)}`;
+  // склонение: «1 позиция свободна» / «3 позиции свободны» / «7 позиций свободно»
+  const freeWord = (n) => {
+    const a = Math.abs(n) % 100, b = a % 10;
+    const form = (a > 10 && a < 20) ? 'many' : (b >= 2 && b <= 4 ? 'few' : (b === 1 ? 'one' : 'many'));
+    return t('cont.free.' + form);
+  };
 
   /* ---------- правки, которые делает менеджер в админке (демо) ---------- */
   function overrides() {
@@ -357,8 +363,7 @@
             ? esc(daysLabel(left))
             : esc(t('cnt.late', 'Рейс задерживается'))}</span>
         </span>
-        <span class="cont-units">${c.items.length} ${esc(t('cont.units', 'позиций'))} · <span class="cont-free">${free} ${esc(t('cont.free', 'свободны для брони'))}</span></span>
-        <span class="cont-date">${esc(t('cont.arrive', 'прибытие'))} ${fmt(c.arrival)}</span>
+        <span class="cont-info">${esc(t('cont.arrive', 'прибытие'))} ${fmt(c.arrival)} · <b>${free} ${esc(freeWord(free))}</b></span>
         <span class="cont-note">${esc(lang() === 'ro' ? c.note_ro : c.note_ru)}</span>
       </a>`;
     }).join('');

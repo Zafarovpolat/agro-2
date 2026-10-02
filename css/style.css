@@ -930,8 +930,9 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .product-info h1 {
-  font-size: 32px;
-  margin-bottom: 16px;
+  font-size: 30px;
+  line-height: 1.15;
+  margin-bottom: 10px;
 }
 .product-info .product-category {
   font-size: 13px;
@@ -939,13 +940,13 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 1px;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
 }
 .product-price {
-  font-size: 24px;
+  font-size: 22px;
   font-weight: 700;
   color: var(--primary);
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 }
 .product-description {
   font-size: 15px;
@@ -1587,10 +1588,10 @@ textarea.form-input {
 }
 .cont-card {
   display: grid;
-  gap: 4px;
-  padding: 16px 18px;
+  gap: 6px;
+  padding: 20px;
   border: 1px solid var(--border);
-  border-radius: var(--radius);
+  border-radius: var(--radius-lg);
   background: var(--white);
   transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
 }
@@ -1607,26 +1608,25 @@ textarea.form-input {
 }
 .cont-code {
   color: var(--dark);
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 700;
   letter-spacing: .02em;
   font-variant-numeric: tabular-nums;
 }
 .cont-days {
-  padding: 3px 9px;
+  padding: 4px 10px;
   border-radius: var(--radius-full);
   background: var(--bg);
   color: var(--text-light);
-  font-size: 11px;
+  font-size: 11.5px;
   font-weight: 600;
   white-space: nowrap;
   font-variant-numeric: tabular-nums;
 }
 .cont-days.is-late { background: var(--st-late-bg); color: var(--st-late-fg); }
-.cont-units { color: var(--text); font-size: 13px; font-weight: 600; }
-.cont-date { color: var(--text-light); font-size: 12.5px; font-variant-numeric: tabular-nums; }
-.cont-free { color: var(--primary-dark); font-size: 12.5px; font-weight: 600; }
-.cont-note { color: var(--text-light); font-size: 12px; line-height: 1.45; }
+.cont-info { color: var(--text-light); font-size: 13.5px; font-variant-numeric: tabular-nums; }
+.cont-info b { color: var(--primary-dark); font-weight: 600; }
+.cont-note { color: var(--text-light); font-size: 13px; line-height: 1.5; }
 
 /* ---------- Блок «Как купить» ---------- */
 .how-steps {
@@ -1661,8 +1661,8 @@ textarea.form-input {
 .product-meta {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px 20px;
-  margin-bottom: 16px;
+  gap: 4px 18px;
+  margin-bottom: 14px;
   font-size: 13.5px;
   color: var(--text-light);
 }

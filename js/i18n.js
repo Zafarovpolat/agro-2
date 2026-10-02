@@ -240,9 +240,10 @@ const translations = {
   /* ---- Контейнеры ---- */
   "cont.title":  { ru: "Контейнеры в пути", ro: "Containere pe drum" },
   "cont.sub":    { ru: "Нажмите на контейнер, чтобы посмотреть, что в нём едет.", ro: "Apăsați pe container pentru a vedea ce sosește în el." },
-  "cont.units":  { ru: "позиций", ro: "poziții" },
-  "cont.arrive": { ru: "прибытие", ro: "sosire" },
-  "cont.free":   { ru: "свободны для брони", ro: "libere pentru rezervare" },
+  "cont.arrive":   { ru: "прибытие", ro: "sosire" },
+  "cont.free.one": { ru: "позиция свободна", ro: "poziție liberă" },
+  "cont.free.few": { ru: "позиции свободны", ro: "poziții libere" },
+  "cont.free.many":{ ru: "позиций свободно", ro: "poziții libere" },
 
   /* ---- Блок «Как купить» ---- */
   "how.title":   { ru: "Как купить", ro: "Cum cumperi" },
