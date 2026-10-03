@@ -870,6 +870,8 @@ h1, h2, h3, h4, h5, h6 {
   transition: all var(--transition);
 }
 .footer-socials a:hover { background: var(--primary); }
+.footer-socials a.footer-messenger-wa:hover { background: #25D366; }
+.footer-socials a.footer-messenger-viber:hover { background: #7360F2; }
 .footer-socials a svg { width: 18px; height: 18px; }
 
 .footer h4 {
