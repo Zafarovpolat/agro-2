@@ -14,6 +14,12 @@ define( 'AGRO_THEME_VER', '1.0.0' );
 /* ------------------------------------------------------------------ */
 function agro_setup() {
 	add_theme_support( 'title-tag' );
+	add_theme_support( 'custom-logo', array(
+		'height'      => 80,
+		'width'       => 300,
+		'flex-height' => true,
+		'flex-width'  => true,
+	) );
 	add_theme_support( 'post-thumbnails' );
 	add_theme_support( 'html5', array( 'search-form', 'gallery', 'caption', 'style', 'script' ) );
 	add_theme_support( 'automatic-feed-links' );
