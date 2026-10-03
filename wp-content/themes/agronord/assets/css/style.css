@@ -976,6 +976,52 @@ h1, h2, h3, h4, h5, h6 {
   position: relative;
   z-index: 5;
 }
+.power-filters {
+  display: flex;
+  flex: 1 0 100%;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-top: 2px;
+  padding-top: 2px;
+}
+.power-filters-label {
+  margin-right: 2px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-light);
+}
+.power-filter-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+  background: var(--white);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  cursor: pointer;
+  transition: background var(--transition), color var(--transition), border-color var(--transition), box-shadow var(--transition);
+}
+.power-filter-btn:hover {
+  border-color: var(--primary);
+  background: var(--primary-50);
+  color: var(--primary-dark);
+}
+.power-filter-btn.active {
+  border-color: var(--primary);
+  background: var(--primary);
+  color: var(--white);
+  box-shadow: 0 3px 10px rgba(22,163,74,.2);
+}
+.power-filter-btn .filter-count {
+  margin-left: 0;
+  opacity: .65;
+}
+.power-filter-btn.active .filter-count { opacity: .9; }
+
 .filter-btn {
   padding: 10px 20px;
   border: 1px solid var(--border);

@@ -323,7 +323,55 @@
   }
 
   /* ---------- каталог: фильтры ---------- */
-  const state = { q: '', cat: 'all', status: 'all', free: false, sort: 'arrival', cont: '' };
+  const POWER_RANGES = [
+    { id: 'all', key: 'power.all' },
+    { id: 'upto200', key: 'power.upto200', min: 0, max: 200 },
+    { id: '200to300', key: 'power.200to300', min: 200, max: 300 },
+    { id: '300to500', key: 'power.300to500', min: 300, max: 500 },
+    { id: '500plus', key: 'power.500plus', min: 500, max: Infinity },
+  ];
+  const state = { q: '', cat: 'all', status: 'all', free: false, sort: 'arrival', cont: '', power: 'all' };
+
+  /* Из характеристик карточки берём диапазон мощности, если он указан
+     в л.с. или c.p. Пример: «245–410 л.с.» → { min: 245, max: 410 }.
+     Диапазон товара пересекается с быстрым фильтром — так трактор
+     с мощностью 245–410 попадает и в 200–300, и в 300–500 л.с. */
+  function powerOf(p) {
+    const row = (p.specs || []).find((s) => {
+      const label = `${s[0] || ''} ${s[1] || ''}`.toLowerCase();
+      return label.includes('мощност') || label.includes('putere');
+    });
+    if (!row) return null;
+    const raw = `${row[2] || ''} ${row[3] || ''}`;
+    const m = raw.match(/(\d{1,4}(?:[.,]\d+)?)\s*(?:[-–—]\s*(\d{1,4}(?:[.,]\d+)?))?\s*(?:л\.?\s*с\.?|c\.?\s*p\.?|cp)/i);
+    if (!m) return null;
+    const n = (v) => Number(String(v).replace(',', '.'));
+    const first = n(m[1]);
+    const second = m[2] ? n(m[2]) : first;
+    if (!Number.isFinite(first) || !Number.isFinite(second)) return null;
+    return { min: Math.min(first, second), max: Math.max(first, second) };
+  }
+
+  function matchesPower(p, id) {
+    if (id === 'all') return true;
+    const range = POWER_RANGES.find((r) => r.id === id);
+    const power = powerOf(p);
+    if (!range || !power) return false;
+    return power.min <= range.max && power.max >= range.min;
+  }
+
+  function renderPowerFilters() {
+    const host = document.querySelector('.catalog-filters');
+    if (!host || !document.getElementById('products-grid') || document.getElementById('power-filters')) return;
+    const box = document.createElement('div');
+    box.className = 'power-filters';
+    box.id = 'power-filters';
+    box.setAttribute('aria-label', t('power.title', 'Мощность'));
+    box.innerHTML = `<span class="power-filters-label" data-i18n="power.title">${esc(t('power.title', 'Мощность'))}</span>` +
+      POWER_RANGES.map((r) => `<button type="button" class="power-filter-btn${r.id === 'all' ? ' active' : ''}" data-power-filter="${r.id}"><span data-i18n="${r.key}">${esc(t(r.key, r.id))}</span><span class="filter-count" data-power-count="${r.id}"></span></button>`).join('');
+    const controls = host.querySelector('.shop-controls');
+    host.insertBefore(box, controls || null);
+  }
 
   /* Проданная техника в витрине не показывается: её видно только если
      явно выбрать статус «Продан» в фильтре (и в админке — там всё). */
@@ -334,6 +382,7 @@
       if (p.status === 'sold' && !showSold()) return false;
       if (state.cont && p.container !== state.cont) return false;
       if (state.cat !== 'all' && p.cat !== state.cat) return false;
+      if (!matchesPower(p, state.power)) return false;
       const unavailable = p.status === 'reserved' || p.status === 'sold';
       if (state.free && unavailable) return false;
       if (state.status !== 'all' && p.status !== state.status) return false;
@@ -360,6 +409,18 @@
     });
   }
 
+  function paintPowerCounts() {
+    let base = allProducts().filter((p) => p.status !== 'sold' || showSold());
+    if (state.cat !== 'all') base = base.filter((p) => p.cat === state.cat);
+    document.querySelectorAll('.power-filter-btn').forEach((btn) => {
+      const id = btn.dataset.powerFilter || 'all';
+      const count = base.filter((p) => matchesPower(p, id)).length;
+      const el = btn.querySelector('[data-power-count]');
+      if (el) el.textContent = count;
+      btn.classList.toggle('active', id === state.power);
+    });
+  }
+
   function renderCatalog() {
     const grid = document.getElementById('products-grid');
     if (!grid) return;
@@ -380,6 +441,7 @@
     }
     document.querySelectorAll('.filter-btn').forEach((b) => b.classList.toggle('active', !state.cont && b.dataset.filter === state.cat));
     paintCounts();
+    paintPowerCounts();
     animate();
     relang();
   }
@@ -736,6 +798,12 @@
         renderCatalog();
       });
     });
+    document.querySelectorAll('.power-filter-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        state.power = btn.dataset.powerFilter || 'all';
+        renderCatalog();
+      });
+    });
     favPaint();
     renderFavPage();
     const q = document.getElementById('shop-search');
@@ -748,7 +816,7 @@
     if (fr) fr.addEventListener('change', () => { state.free = fr.checked; renderCatalog(); });
     const rs = document.getElementById('shop-reset');
     if (rs) rs.addEventListener('click', () => {
-      state.q = ''; state.cat = 'all'; state.status = 'all'; state.free = false; state.sort = 'arrival'; state.cont = '';
+      state.q = ''; state.cat = 'all'; state.status = 'all'; state.free = false; state.sort = 'arrival'; state.cont = ''; state.power = 'all';
       if (q) q.value = '';
       if (st) st.value = 'all';
       if (sr) sr.value = 'arrival';
@@ -890,6 +958,7 @@
     if (params.get('cont')) state.cont = params.get('cont');
     if (params.get('cat')) state.cat = params.get('cat');
 
+    renderPowerFilters();
     mountModal();
     enhanceSelects();
     bind();

@@ -50,6 +50,12 @@ const translations = {
   /* ---- Catalog page ---- */
   "catalog.title": { ru: "Каталог техники", ro: "Catalog utilaje" },
   "catalog.subtitle": { ru: "Широкий выбор сельскохозяйственного оборудования для любых задач", ro: "O gamă largă de echipamente agricole pentru orice sarcină" },
+  "power.title": { ru: "Мощность", ro: "Putere" },
+  "power.all": { ru: "Все мощности", ro: "Toate puterile" },
+  "power.upto200": { ru: "до 200 л.с.", ro: "până la 200 c.p." },
+  "power.200to300": { ru: "200–300 л.с.", ro: "200–300 c.p." },
+  "power.300to500": { ru: "300–500 л.с.", ro: "300–500 c.p." },
+  "power.500plus": { ru: "500+ л.с.", ro: "500+ c.p." },
   "filter.all": { ru: "Все", ro: "Toate" },
   "filter.tractors": { ru: "Тракторы", ro: "Tractoare" },
   "filter.combines": { ru: "Комбайны", ro: "Combine" },
