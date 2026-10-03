@@ -1,0 +1,13 @@
+/*
+Theme Name: AgroNord
+Theme URI: https://agronord.ruso.agency
+Author: RUSO Agency
+Description: Тема для AgroNord — продажа сельхозтехники. Каталог со статусами поставки, счётчиком дней до прибытия и бронированием. Работает в паре с плагином «AgroNord — каталог».
+Version: 1.0.0
+Requires at least: 6.0
+Requires PHP: 7.4
+Text Domain: agronord
+*/
+
+/* Боевые стили лежат в assets/css/style.css и подключаются из functions.php.
+   Этот файл нужен WordPress только для описания темы. */
